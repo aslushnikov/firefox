@@ -718,7 +718,8 @@ LoadInfo::LoadInfo(const LoadInfo& rhs)
           rhs.mHasInjectedCookieForCookieBannerHandling),
       mSchemelessInput(rhs.mSchemelessInput),
       mHttpsUpgradeTelemetry(rhs.mHttpsUpgradeTelemetry),
-      mIsNewWindowTarget(rhs.mIsNewWindowTarget) {
+      mIsNewWindowTarget(rhs.mIsNewWindowTarget),
+      mJugglerLoadIdentifier(rhs.mJugglerLoadIdentifier) {
 }
 
 LoadInfo::LoadInfo(
@@ -2566,6 +2567,18 @@ LoadInfo::GetSkipHTTPSUpgrade(bool* aSkipHTTPSUpgrade) {
 NS_IMETHODIMP
 LoadInfo::SetSkipHTTPSUpgrade(bool aSkipHTTPSUpgrade) {
   mSkipHTTPSUpgrade = aSkipHTTPSUpgrade;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+LoadInfo::GetJugglerLoadIdentifier(uint64_t* aResult) {
+  *aResult = mJugglerLoadIdentifier;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+LoadInfo::SetJugglerLoadIdentifier(uint64_t aID) {
+  mJugglerLoadIdentifier = aID;
   return NS_OK;
 }
 
