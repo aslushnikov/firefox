@@ -28,7 +28,6 @@
 #include "nsComponentManagerUtils.h"
 #include "nsContentPermissionHelper.h"
 #include "nsContentUtils.h"
-#include "nsDocShell.h"
 #include "nsGlobalWindowInner.h"
 #include "mozilla/dom/Document.h"
 #include "nsINamed.h"
@@ -428,19 +427,9 @@ nsGeolocationRequest::Allow(JS::Handle<JS::Value> aChoices) {
     return NS_OK;
   }
 
-<<<<<<< HEAD
   RefPtr<nsGeolocationService> gs = nsGeolocationService::GetGeolocationService(
       mLocator->GetBrowsingContext());
   bool canUseCache = false;
-||||||| parent of b94e3997359f (chore(ff-beta): bootstrap build #1482)
-  RefPtr<nsGeolocationService> gs =
-      nsGeolocationService::GetGeolocationService();
-
-  bool canUseCache = false;
-=======
-  nsGeolocationService* gs = mLocator->GetGeolocationService();
-  bool canUseCache = gs != nsGeolocationService::sService.get();
->>>>>>> b94e3997359f (chore(ff-beta): bootstrap build #1482)
   CachedPositionAndAccuracy lastPosition = gs->GetCachedPosition();
   if (lastPosition.position) {
     EpochTimeStamp cachedPositionTime_ms;
@@ -661,16 +650,9 @@ void nsGeolocationRequest::Shutdown() {
   // If there are no other high accuracy requests, the geolocation service will
   // notify the provider to switch to the default accuracy.
   if (mOptions && mOptions->mEnableHighAccuracy) {
-<<<<<<< HEAD
     RefPtr<nsGeolocationService> gs =
         nsGeolocationService::GetGeolocationService(
             mLocator->GetBrowsingContext());
-||||||| parent of b94e3997359f (chore(ff-beta): bootstrap build #1482)
-    RefPtr<nsGeolocationService> gs =
-        nsGeolocationService::GetGeolocationService();
-=======
-    nsGeolocationService* gs = mLocator ? mLocator->GetGeolocationService() : nullptr;
->>>>>>> b94e3997359f (chore(ff-beta): bootstrap build #1482)
     if (gs) {
       gs->UpdateAccuracy();
     }
@@ -987,16 +969,9 @@ void nsGeolocationService::StopDevice() {
 StaticRefPtr<nsGeolocationService> nsGeolocationService::sService;
 
 already_AddRefed<nsGeolocationService>
-<<<<<<< HEAD
 nsGeolocationService::GetGeolocationService(
     mozilla::dom::BrowsingContext* aBrowsingContext) {
-||||||| parent of b94e3997359f (chore(ff-beta): bootstrap build #1482)
-nsGeolocationService::GetGeolocationService() {
-=======
-nsGeolocationService::GetGeolocationService(nsDocShell* docShell) {
->>>>>>> b94e3997359f (chore(ff-beta): bootstrap build #1482)
   RefPtr<nsGeolocationService> result;
-<<<<<<< HEAD
   if (aBrowsingContext) {
     result = aBrowsingContext->GetGeolocationServiceOverride();
 
@@ -1004,15 +979,6 @@ nsGeolocationService::GetGeolocationService(nsDocShell* docShell) {
       return result.forget();
     }
   }
-||||||| parent of b94e3997359f (chore(ff-beta): bootstrap build #1482)
-=======
-  if (docShell) {
-    result = docShell->GetGeolocationServiceOverride();
-    if (result)
-      return result.forget();
-  }
-
->>>>>>> b94e3997359f (chore(ff-beta): bootstrap build #1482)
   if (nsGeolocationService::sService) {
     result = nsGeolocationService::sService;
 
@@ -1114,16 +1080,8 @@ nsresult Geolocation::Init(nsPIDOMWindowInner* aContentDom) {
   // If no aContentDom was passed into us, we are being used
   // by chrome/c++ and have no mOwner, no mPrincipal, and no need
   // to prompt.
-<<<<<<< HEAD
   mService = nsGeolocationService::GetGeolocationService(mBrowsingContext);
 
-||||||| parent of b94e3997359f (chore(ff-beta): bootstrap build #1482)
-  mService = nsGeolocationService::GetGeolocationService();
-=======
-  nsCOMPtr<Document> doc = aContentDom ? aContentDom->GetDoc() : nullptr;
-  mService = nsGeolocationService::GetGeolocationService(
-      doc ? static_cast<nsDocShell*>(doc->GetDocShell()) : nullptr);
->>>>>>> b94e3997359f (chore(ff-beta): bootstrap build #1482)
   if (mService) {
     mService->AddLocator(this);
   }

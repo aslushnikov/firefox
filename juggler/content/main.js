@@ -21,7 +21,7 @@ export function initialize(browsingContext, docShell) {
   const applySetting = {
     geolocation: (geolocation) => {
       if (geolocation) {
-        docShell.setGeolocationOverride({
+        browsingContext.setGeolocationServiceOverride({
           coords: {
             latitude: geolocation.latitude,
             longitude: geolocation.longitude,
@@ -31,14 +31,12 @@ export function initialize(browsingContext, docShell) {
             heading: NaN,
             speed: NaN,
           },
-          address: null,
           timestamp: Date.now()
         });
       } else {
-        docShell.setGeolocationOverride(null);
+        browsingContext.setGeolocationServiceOverride();
       }
     },
-
     bypassCSP: (bypassCSP) => {
       docShell.bypassCSPEnabled = bypassCSP;
     },
