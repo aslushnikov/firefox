@@ -744,7 +744,8 @@ LoadInfo::LoadInfo(const LoadInfo& rhs)
           rhs.mHasInjectedCookieForCookieBannerHandling),
       mSchemelessInput(rhs.mSchemelessInput),
       mHttpsUpgradeTelemetry(rhs.mHttpsUpgradeTelemetry),
-      mIsNewWindowTarget(rhs.mIsNewWindowTarget) {
+      mIsNewWindowTarget(rhs.mIsNewWindowTarget),
+      mJugglerLoadIdentifier(rhs.mJugglerLoadIdentifier) {
 }
 
 LoadInfo::LoadInfo(
@@ -2625,6 +2626,7 @@ LoadInfo::SetSkipHTTPSUpgrade(bool aSkipHTTPSUpgrade) {
   return NS_OK;
 }
 
+<<<<<<< HEAD
 void LoadInfo::UpdateParentAddressSpaceInfo() {
   MOZ_ASSERT(mInternalContentPolicyType != nsContentPolicyType::TYPE_INVALID,
              "Content policy must be set before updating address spsace");
@@ -2657,4 +2659,19 @@ void LoadInfo::UpdateParentAddressSpaceInfo() {
   }
 }
 
+||||||| parent of 3f642834ca7a (chore(ff): bootstrap build #1487)
+=======
+NS_IMETHODIMP
+LoadInfo::GetJugglerLoadIdentifier(uint64_t* aResult) {
+  *aResult = mJugglerLoadIdentifier;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+LoadInfo::SetJugglerLoadIdentifier(uint64_t aID) {
+  mJugglerLoadIdentifier = aID;
+  return NS_OK;
+}
+
+>>>>>>> 3f642834ca7a (chore(ff): bootstrap build #1487)
 }  // namespace mozilla::net

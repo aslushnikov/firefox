@@ -61,6 +61,7 @@ bool CoalescedMouseData::CanCoalesce(const WidgetMouseEvent& aEvent,
                                      const uint64_t& aInputBlockId,
                                      const nsRefreshDriver* aRefreshDriver) {
   MOZ_ASSERT(aEvent.mMessage == eMouseMove);
+<<<<<<< HEAD
   if (!mCoalescedInputEvent) {
     return true;
   }
@@ -81,6 +82,30 @@ bool CoalescedMouseData::CanCoalesce(const WidgetMouseEvent& aEvent,
     return true;
   }
   return aRefreshDriver && aRefreshDriver->IsTestControllingRefreshesEnabled();
+||||||| parent of 3f642834ca7a (chore(ff): bootstrap build #1487)
+  return !mCoalescedInputEvent ||
+         (!mCoalescedInputEvent->mFlags.mIsSynthesizedForTests &&
+          !aEvent.mFlags.mIsSynthesizedForTests &&
+          mCoalescedInputEvent->mModifiers == aEvent.mModifiers &&
+          mCoalescedInputEvent->mInputSource == aEvent.mInputSource &&
+          mCoalescedInputEvent->pointerId == aEvent.pointerId &&
+          mCoalescedInputEvent->mButton == aEvent.mButton &&
+          mCoalescedInputEvent->mButtons == aEvent.mButtons && mGuid == aGuid &&
+          mInputBlockId == aInputBlockId);
+=======
+  return !mCoalescedInputEvent ||
+         (!mCoalescedInputEvent->mFlags.mIsSynthesizedForTests &&
+          !aEvent.mFlags.mIsSynthesizedForTests &&
+          mCoalescedInputEvent->mModifiers == aEvent.mModifiers &&
+          mCoalescedInputEvent->mInputSource == aEvent.mInputSource &&
+          mCoalescedInputEvent->pointerId == aEvent.pointerId &&
+          mCoalescedInputEvent->mButton == aEvent.mButton &&
+          mCoalescedInputEvent->mButtons == aEvent.mButtons && mGuid == aGuid &&
+          // `mJugglerEventId` is 0 for non-juggler events and a unique number for
+          // juggler-emitted events.
+          mCoalescedInputEvent->mJugglerEventId == aEvent.mJugglerEventId &&
+          mInputBlockId == aInputBlockId);
+>>>>>>> 3f642834ca7a (chore(ff): bootstrap build #1487)
 }
 
 CoalescedMouseMoveFlusher::CoalescedMouseMoveFlusher(
