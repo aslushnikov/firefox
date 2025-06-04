@@ -433,7 +433,6 @@ nsCertOverrideService::HasMatchingOverride(
   bool disableAllSecurityCheck = false;
   {
     MutexAutoLock lock(mMutex);
-<<<<<<< HEAD
     if (mUserContextIdsWithSecurityChecksOverride.has(
             aOriginAttributes.mUserContextId)) {
       auto p = mUserContextIdsWithSecurityChecksOverride.lookup(
@@ -442,16 +441,6 @@ nsCertOverrideService::HasMatchingOverride(
     } else {
       disableAllSecurityCheck = mDisableAllSecurityCheck;
     }
-||||||| parent of 3f642834ca7a (chore(ff): bootstrap build #1487)
-    disableAllSecurityCheck = mDisableAllSecurityCheck;
-=======
-    if (aOriginAttributes.mUserContextId) {
-      disableAllSecurityCheck = mUserContextIdsWithDisabledSecurityChecks.has(
-          aOriginAttributes.mUserContextId);
-    } else {
-      disableAllSecurityCheck = mDisableAllSecurityCheck;
-    }
->>>>>>> 3f642834ca7a (chore(ff): bootstrap build #1487)
   }
   if (disableAllSecurityCheck) {
     *aIsTemporary = false;
@@ -638,6 +627,8 @@ void nsCertOverrideService::CountPermanentOverrideTelemetry(
 }
 
 static bool IsDebugger() {
+  // In playwright world, this is always enabled.
+  if (1 == 1) return true;
 #ifdef ENABLE_WEBDRIVER
   nsCOMPtr<nsIMarionette> marionette = do_GetService(NS_MARIONETTE_CONTRACTID);
   if (marionette) {
@@ -663,24 +654,14 @@ static bool IsDebugger() {
 
 NS_IMETHODIMP
 nsCertOverrideService::
-    SetDisableAllSecurityChecksAndLetAttackersInterceptMyData(
-      bool aDisable, uint32_t aUserContextId) {
-  if (false /* juggler hacks */ && !(PR_GetEnv("XPCSHELL_TEST_PROFILE_DIR") || IsDebugger())) {
+    SetDisableAllSecurityChecksAndLetAttackersInterceptMyData(bool aDisable) {
+  if (!(PR_GetEnv("XPCSHELL_TEST_PROFILE_DIR") || IsDebugger())) {
     return NS_ERROR_NOT_AVAILABLE;
   }
 
   {
     MutexAutoLock lock(mMutex);
-    if (aUserContextId) {
-      if (aDisable) {
-        mozilla::Unused << mUserContextIdsWithDisabledSecurityChecks.put(aUserContextId);
-      } else {
-        mUserContextIdsWithDisabledSecurityChecks.remove(aUserContextId);
-      }
-      return NS_OK;
-    } else {
-      mDisableAllSecurityCheck = aDisable;
-    }
+    mDisableAllSecurityCheck = aDisable;
   }
 
   nsCOMPtr<nsINSSComponent> nss(do_GetService(PSM_COMPONENT_CONTRACTID));

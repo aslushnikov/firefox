@@ -137,7 +137,6 @@ interface nsICertOverrideService : nsISupports {
    *  @param aDisable If true, disable all security checks and make
    *                  hasMatchingOverride always return true.
    */
-<<<<<<< HEAD
   void setDisableAllSecurityChecksAndLetAttackersInterceptMyData(
     in boolean aDisable);
 
@@ -172,13 +171,6 @@ interface nsICertOverrideService : nsISupports {
    */
   void resetDisableAllSecurityChecksAndLetAttackersInterceptMyDataForUserContext(
     in uint32_t aUserContextId);
-||||||| parent of 3f642834ca7a (chore(ff): bootstrap build #1487)
-  void setDisableAllSecurityChecksAndLetAttackersInterceptMyData(in boolean aDisable);
-=======
-  void setDisableAllSecurityChecksAndLetAttackersInterceptMyData(
-      in boolean aDisable,
-      [optional] in uint32_t aUserContextId);
->>>>>>> 3f642834ca7a (chore(ff): bootstrap build #1487)
 
   readonly attribute boolean securityCheckDisabled;
 };

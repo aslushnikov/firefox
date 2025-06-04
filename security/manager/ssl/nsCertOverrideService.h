@@ -118,13 +118,8 @@ class nsCertOverrideService final : public nsICertOverrideService,
 
   mozilla::Mutex mMutex;
   bool mDisableAllSecurityCheck MOZ_GUARDED_BY(mMutex);
-<<<<<<< HEAD
   mozilla::HashMap<uint32_t, bool> mUserContextIdsWithSecurityChecksOverride
       MOZ_GUARDED_BY(mMutex);
-||||||| parent of 3f642834ca7a (chore(ff): bootstrap build #1487)
-=======
-  mozilla::HashSet<uint32_t> mUserContextIdsWithDisabledSecurityChecks MOZ_GUARDED_BY(mMutex);
->>>>>>> 3f642834ca7a (chore(ff): bootstrap build #1487)
   nsCOMPtr<nsIFile> mSettingsFile MOZ_GUARDED_BY(mMutex);
   nsTHashtable<nsCertOverrideEntry> mSettingsTable MOZ_GUARDED_BY(mMutex);
 

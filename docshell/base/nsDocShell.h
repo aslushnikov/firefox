@@ -15,12 +15,8 @@
 #include "mozilla/UniquePtr.h"
 #include "mozilla/WeakPtr.h"
 #include "mozilla/dom/BrowsingContext.h"
-<<<<<<< HEAD
 #include "mozilla/dom/NavigationBinding.h"
-||||||| parent of 3f642834ca7a (chore(ff): bootstrap build #1487)
-=======
 #include "mozilla/dom/Element.h"
->>>>>>> 3f642834ca7a (chore(ff): bootstrap build #1487)
 #include "mozilla/dom/WindowProxyHolder.h"
 #include "nsCOMPtr.h"
 #include "nsCharsetSource.h"

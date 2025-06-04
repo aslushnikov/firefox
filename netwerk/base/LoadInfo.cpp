@@ -2626,7 +2626,6 @@ LoadInfo::SetSkipHTTPSUpgrade(bool aSkipHTTPSUpgrade) {
   return NS_OK;
 }
 
-<<<<<<< HEAD
 void LoadInfo::UpdateParentAddressSpaceInfo() {
   MOZ_ASSERT(mInternalContentPolicyType != nsContentPolicyType::TYPE_INVALID,
              "Content policy must be set before updating address spsace");
@@ -2659,8 +2658,6 @@ void LoadInfo::UpdateParentAddressSpaceInfo() {
   }
 }
 
-||||||| parent of 3f642834ca7a (chore(ff): bootstrap build #1487)
-=======
 NS_IMETHODIMP
 LoadInfo::GetJugglerLoadIdentifier(uint64_t* aResult) {
   *aResult = mJugglerLoadIdentifier;
@@ -2673,5 +2670,4 @@ LoadInfo::SetJugglerLoadIdentifier(uint64_t aID) {
   return NS_OK;
 }
 
->>>>>>> 3f642834ca7a (chore(ff): bootstrap build #1487)
 }  // namespace mozilla::net
