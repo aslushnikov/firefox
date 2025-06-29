@@ -381,6 +381,7 @@ interface nsIDOMWindowUtils : nsISupports {
                          [optional] in long aButtons,
                          [optional] in unsigned long aIdentifier);
 
+<<<<<<< HEAD
 /**
  * AsyncEnabledOption is passed to functions to enable or disable
  * asynchronous event dispatching. Default is disabled.
@@ -390,6 +391,29 @@ cenum AsyncEnabledOption : 8 {
   ASYNC_ENABLED = 1
 };
 
+||||||| parent of 2f54c075eca0 (conflicts)
+=======
+  /**
+   * Playwright: a separate method to dispatch mouse event with a
+   * specific `jugglerEventId`.
+   */
+  [can_run_script]
+  unsigned long jugglerSendMouseEvent(in AString aType,
+                         in float aX,
+                         in float aY,
+                         in long aButton,
+                         in long aClickCount,
+                         in long aModifiers,
+                         in boolean aIgnoreRootScrollFrame,
+                         in float aPressure,
+                         in unsigned short aInputSourceArg,
+                         in boolean aIsDOMEventSynthesized,
+                         in boolean aIsWidgetEventSynthesized,
+                         in long aButtons,
+                         in unsigned long aIdentifier,
+                         in boolean aDisablePointerEvent);
+
+>>>>>>> 2f54c075eca0 (conflicts)
   /** Synthesize a touch event. The event types supported are:
    *    touchstart, touchend, touchmove, and touchcancel
    *

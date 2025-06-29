@@ -67,6 +67,7 @@ enum class ResetTimeZoneMode : bool {
  */
 extern void ResetTimeZoneInternal(ResetTimeZoneMode mode);
 
+<<<<<<< HEAD
 using TimeZoneDisplayNameVector = Vector<char16_t, 100, SystemAllocPolicy>;
 
 #if JS_HAS_INTL_API
@@ -75,6 +76,11 @@ using TimeZoneIdentifierVector =
            SystemAllocPolicy>;
 #endif
 
+||||||| parent of 2f54c075eca0 (conflicts)
+=======
+extern void SetTimeZoneOverrideInternal(std::string timeZone);
+
+>>>>>>> 2f54c075eca0 (conflicts)
 /**
  * Stores date/time information, particularly concerning the current local
  * time zone, and implements a small cache for daylight saving time offset
@@ -258,6 +264,7 @@ class DateTimeInfo {
  private:
   // The method below should only be called via js::ResetTimeZoneInternal().
   friend void js::ResetTimeZoneInternal(ResetTimeZoneMode);
+  friend void js::SetTimeZoneOverrideInternal(std::string);
 
   static void resetTimeZone(ResetTimeZoneMode mode) {
     {
@@ -362,6 +369,8 @@ class DateTimeInfo {
   JS::UniqueChars locale_;
   JS::UniqueTwoByteChars standardName_;
   JS::UniqueTwoByteChars daylightSavingsName_;
+
+  std::string timeZoneOverride_;
 #else
   // Restrict the data-time range to the minimum required time_t range as
   // specified in POSIX. Most operating systems support 64-bit time_t
@@ -376,6 +385,8 @@ class DateTimeInfo {
   static constexpr int64_t RangeExpansionAmount = 30 * SecondsPerDay;
 
   void internalResetTimeZone(ResetTimeZoneMode mode);
+
+  void internalSetTimeZoneOverride(std::string timeZone);
 
   void updateTimeZone();
 
