@@ -244,17 +244,11 @@ class NotificationController final : public EventQueue,
   }
 #endif
 
-<<<<<<< HEAD
   /**
    * Return true if the accessible tree state update is pending.
    */
   bool IsUpdatePending() const;
 
-||||||| parent of 2f54c075eca0 (conflicts)
-=======
-  bool IsUpdatePendingForJugglerAccessibility() { return IsUpdatePending(); }
-
->>>>>>> 2f54c075eca0 (conflicts)
  protected:
   virtual ~NotificationController();
 

@@ -1187,11 +1187,8 @@ class BrowsingContext : public nsILoadContext, public nsWrapperCache {
   void WalkPresContexts(Callback&&);
   void PresContextAffectingFieldChanged();
 
-<<<<<<< HEAD
   void DidSet(FieldIndex<IDX_LanguageOverride>, nsString&& aOldValue);
 
-||||||| parent of 2f54c075eca0 (conflicts)
-=======
   bool CanSet(FieldIndex<IDX_PrefersReducedMotionOverride>,
               dom::PrefersReducedMotionOverride, ContentParent*) {
     return IsTop();
@@ -1201,7 +1198,6 @@ class BrowsingContext : public nsILoadContext, public nsWrapperCache {
               dom::PrefersReducedMotionOverride aOldValue);
 
 
->>>>>>> 2f54c075eca0 (conflicts)
   void DidSet(FieldIndex<IDX_MediumOverride>, nsString&& aOldValue);
 
   bool CanSet(FieldIndex<IDX_SuspendMediaWhenInactive>, bool, ContentParent*) {

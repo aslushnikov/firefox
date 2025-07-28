@@ -2923,7 +2923,6 @@ void BrowsingContext::DidSet(FieldIndex<IDX_ForcedColorsOverride>,
   PresContextAffectingFieldChanged();
 }
 
-<<<<<<< HEAD
 void BrowsingContext::DidSet(FieldIndex<IDX_LanguageOverride>,
                              nsString&& aOldValue) {
   MOZ_ASSERT(IsTop());
@@ -2958,8 +2957,6 @@ void BrowsingContext::DidSet(FieldIndex<IDX_LanguageOverride>,
   });
 }
 
-||||||| parent of 2f54c075eca0 (conflicts)
-=======
 void BrowsingContext::DidSet(FieldIndex<IDX_PrefersContrastOverride>,
                              dom::PrefersContrastOverride aOldValue) {
   MOZ_ASSERT(IsTop());
@@ -2986,7 +2983,6 @@ void BrowsingContext::DidSet(FieldIndex<IDX_PrefersReducedMotionOverride>,
   });
 }
 
->>>>>>> 2f54c075eca0 (conflicts)
 void BrowsingContext::DidSet(FieldIndex<IDX_MediumOverride>,
                              nsString&& aOldValue) {
   MOZ_ASSERT(IsTop());

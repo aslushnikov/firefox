@@ -154,7 +154,7 @@ xpcAccessibleDocument::GetBrowsingContext(
 NS_IMETHODIMP
 xpcAccessibleDocument::GetIsUpdatePendingForJugglerAccessibility(bool* updating) {
   NS_ENSURE_ARG_POINTER(updating);
-  *updating = Intl()->Controller()->IsUpdatePendingForJugglerAccessibility();
+  *updating = Intl()->Controller()->IsUpdatePending();
   return NS_OK;
 }
 

@@ -67,7 +67,6 @@ enum class ResetTimeZoneMode : bool {
  */
 extern void ResetTimeZoneInternal(ResetTimeZoneMode mode);
 
-<<<<<<< HEAD
 using TimeZoneDisplayNameVector = Vector<char16_t, 100, SystemAllocPolicy>;
 
 #if JS_HAS_INTL_API
@@ -76,11 +75,8 @@ using TimeZoneIdentifierVector =
            SystemAllocPolicy>;
 #endif
 
-||||||| parent of 2f54c075eca0 (conflicts)
-=======
 extern void SetTimeZoneOverrideInternal(std::string timeZone);
 
->>>>>>> 2f54c075eca0 (conflicts)
 /**
  * Stores date/time information, particularly concerning the current local
  * time zone, and implements a small cache for daylight saving time offset
