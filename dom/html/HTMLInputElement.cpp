@@ -47,6 +47,7 @@
 #include "mozilla/dom/GetFilesHelper.h"
 #include "mozilla/dom/HTMLDataListElement.h"
 #include "mozilla/dom/HTMLOptionElement.h"
+<<<<<<< HEAD
 #include "mozilla/dom/InputType.h"
 #include "mozilla/dom/MouseEvent.h"
 #include "mozilla/dom/MutationEventBinding.h"
@@ -62,6 +63,14 @@
 #include "nsBaseCommandController.h"
 #include "nsCRTGlue.h"
 #include "nsColorControlFrame.h"
+||||||| parent of 09988be9795f (chore(ff-beta): bootstrap build #1485)
+#include "nsIFrame.h"
+#include "nsRangeFrame.h"
+=======
+#include "nsDocShell.h"
+#include "nsIFrame.h"
+#include "nsRangeFrame.h"
+>>>>>>> 09988be9795f (chore(ff-beta): bootstrap build #1485)
 #include "nsError.h"
 #include "nsFileControlFrame.h"
 #include "nsFocusManager.h"
@@ -849,6 +858,13 @@ nsresult HTMLInputElement::InitFilePicker(FilePickerType aType) {
   RefPtr<BrowsingContext> bc = doc->GetBrowsingContext();
   if (!bc) {
     return NS_ERROR_FAILURE;
+  }
+
+  nsCOMPtr<nsPIDOMWindowOuter> win = doc->GetWindow();
+  nsDocShell* docShell = win ? static_cast<nsDocShell*>(win->GetDocShell()) : nullptr;
+  if (docShell && docShell->IsFileInputInterceptionEnabled()) {
+    docShell->FilePickerShown(this);
+    return NS_OK;
   }
 
   if (IsPickerBlocked(doc)) {
