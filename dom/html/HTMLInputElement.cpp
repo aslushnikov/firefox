@@ -47,7 +47,6 @@
 #include "mozilla/dom/GetFilesHelper.h"
 #include "mozilla/dom/HTMLDataListElement.h"
 #include "mozilla/dom/HTMLOptionElement.h"
-<<<<<<< HEAD
 #include "mozilla/dom/InputType.h"
 #include "mozilla/dom/MouseEvent.h"
 #include "mozilla/dom/MutationEventBinding.h"
@@ -63,14 +62,9 @@
 #include "nsBaseCommandController.h"
 #include "nsCRTGlue.h"
 #include "nsColorControlFrame.h"
-||||||| parent of 09988be9795f (chore(ff-beta): bootstrap build #1485)
-#include "nsIFrame.h"
-#include "nsRangeFrame.h"
-=======
 #include "nsDocShell.h"
 #include "nsIFrame.h"
 #include "nsRangeFrame.h"
->>>>>>> 09988be9795f (chore(ff-beta): bootstrap build #1485)
 #include "nsError.h"
 #include "nsFileControlFrame.h"
 #include "nsFocusManager.h"

@@ -53,20 +53,10 @@ namespace webrtc {
 
 DesktopCaptureImpl* DesktopCaptureImpl::Create(const int32_t aModuleId,
                                                const char* aUniqueId,
-<<<<<<< HEAD
-                                               const CaptureDeviceType aType) {
-  return new webrtc::RefCountedObject<DesktopCaptureImpl>(aModuleId, aUniqueId,
-                                                          aType);
-||||||| parent of 09988be9795f (chore(ff-beta): bootstrap build #1485)
-                                               const CaptureDeviceType aType) {
-  return new rtc::RefCountedObject<DesktopCaptureImpl>(aModuleId, aUniqueId,
-                                                       aType);
-=======
                                                const CaptureDeviceType aType,
                                                bool aCaptureCursor) {
-  return new rtc::RefCountedObject<DesktopCaptureImpl>(aModuleId, aUniqueId,
+  return new webrtc::RefCountedObject<DesktopCaptureImpl>(aModuleId, aUniqueId,
                                                        aType, aCaptureCursor);
->>>>>>> 09988be9795f (chore(ff-beta): bootstrap build #1485)
 }
 
 static DesktopCaptureOptions CreateDesktopCaptureOptions() {
@@ -311,12 +301,12 @@ void DesktopCaptureImpl::DeRegisterCaptureDataCallback(
 }
 
 void DesktopCaptureImpl::RegisterRawFrameCallback(RawFrameCallback* rawFrameCallback) {
-  rtc::CritScope lock(&mApiCs);
+  webrtc::CritScope lock(&mApiCs);
   _rawFrameCallbacks.insert(rawFrameCallback);
 }
 
 void DesktopCaptureImpl::DeRegisterRawFrameCallback(RawFrameCallback* rawFrameCallback) {
-  rtc::CritScope lock(&mApiCs);
+  webrtc::CritScope lock(&mApiCs);
   auto it = _rawFrameCallbacks.find(rawFrameCallback);
   if (it != _rawFrameCallbacks.end()) {
     _rawFrameCallbacks.erase(it);
@@ -489,7 +479,7 @@ void DesktopCaptureImpl::OnCaptureResult(DesktopCapturer::Result aResult,
   size_t videoFrameStride =
       frameInfo.width * DesktopFrame::kBytesPerPixel;
   {
-    rtc::CritScope cs(&mApiCs);
+    webrtc::CritScope cs(&mApiCs);
     for (auto rawFrameCallback : _rawFrameCallbacks) {
       rawFrameCallback->OnRawFrame(videoFrame, videoFrameStride, frameInfo);
     }
