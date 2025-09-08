@@ -130,7 +130,7 @@ class DesktopCaptureImpl : public DesktopCapturer::Callback,
   void UpdateOnThread(int aFramerate);
   void ShutdownOnThread();
 
-  rtc::RecursiveCriticalSection mApiCs;
+  webrtc::RecursiveCriticalSection mApiCs;
   std::set<RawFrameCallback*> _rawFrameCallbacks;
   // DesktopCapturer::Callback interface.
   void OnCaptureResult(DesktopCapturer::Result aResult,

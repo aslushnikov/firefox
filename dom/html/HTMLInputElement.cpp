@@ -47,7 +47,6 @@
 #include "mozilla/dom/GetFilesHelper.h"
 #include "mozilla/dom/HTMLDataListElement.h"
 #include "mozilla/dom/HTMLOptionElement.h"
-<<<<<<< HEAD
 #include "mozilla/dom/InputType.h"
 #include "mozilla/dom/MouseEvent.h"
 #include "mozilla/dom/MutationEventBinding.h"
@@ -63,14 +62,7 @@
 #include "nsBaseCommandController.h"
 #include "nsCRTGlue.h"
 #include "nsColorControlFrame.h"
-||||||| parent of 7270b3df4cc1 (chore(ff-beta): bootstrap build #1486)
-#include "nsIFrame.h"
-#include "nsRangeFrame.h"
-=======
 #include "nsDocShell.h"
-#include "nsIFrame.h"
-#include "nsRangeFrame.h"
->>>>>>> 7270b3df4cc1 (chore(ff-beta): bootstrap build #1486)
 #include "nsError.h"
 #include "nsFileControlFrame.h"
 #include "nsFocusManager.h"
