@@ -252,6 +252,7 @@ struct ParamTraits<mozilla::WidgetMouseEvent> {
     }
     WriteParam(aWriter, aParam.mClickCount);
     WriteParam(aWriter, aParam.mCallbackId);
+    WriteParam(aWriter, aParam.mJugglerEventId);
 
     // Mark the event as stopped to notify callback.
     const_cast<mozilla::WidgetMouseEvent&>(aParam).mCallbackId.reset();
@@ -280,6 +281,7 @@ struct ParamTraits<mozilla::WidgetMouseEvent> {
     }
     rv = rv && ReadParam(aReader, &aResult->mClickCount) &&
          ReadParam(aReader, &aResult->mCallbackId);
+    rv = rv && ReadParam(aReader, &aResult->mJugglerEventId);
     return rv;
   }
 };

@@ -386,6 +386,9 @@ class WidgetMouseEvent : public WidgetMouseEventBase,
   // Otherwise, this must be 0.
   uint32_t mClickCount = 0;
 
+  // Unique event ID
+  uint32_t mJugglerEventId = 0;
+
   // Whether the event should ignore scroll frame bounds during dispatch.
   bool mIgnoreRootScrollFrame = false;
 
@@ -425,6 +428,7 @@ class WidgetMouseEvent : public WidgetMouseEventBase,
     mContextMenuTrigger = aEvent.mContextMenuTrigger;
     mExitFrom = aEvent.mExitFrom;
     mClickCount = aEvent.mClickCount;
+    mJugglerEventId = aEvent.mJugglerEventId;
     mIgnoreRootScrollFrame = aEvent.mIgnoreRootScrollFrame;
     mIgnoreCapturingContent = aEvent.mIgnoreCapturingContent;
     mClickEventPrevented = aEvent.mClickEventPrevented;
