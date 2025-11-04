@@ -86,6 +86,28 @@ class nsDOMWindowUtils final : public nsIDOMWindowUtils,
   mozilla::layers::WebRenderBridgeChild* GetWebRenderBridge();
   mozilla::layers::CompositorBridgeChild* GetCompositorBridge();
 
+<<<<<<< HEAD
+||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
+  // Until callers are annotated.
+  MOZ_CAN_RUN_SCRIPT
+  NS_IMETHOD SendMouseEventCommon(
+      const nsAString& aType, float aX, float aY, int32_t aButton,
+      int32_t aClickCount, int32_t aModifiers, bool aIgnoreRootScrollFrame,
+      float aPressure, unsigned short aInputSourceArg, uint32_t aIdentifier,
+      bool aToWindow, bool* aPreventDefault, bool aIsDOMEventSynthesized,
+      bool aIsWidgetEventSynthesized, int32_t aButtons);
+
+=======
+  // Until callers are annotated.
+  MOZ_CAN_RUN_SCRIPT
+  NS_IMETHOD SendMouseEventCommon(
+      const nsAString& aType, float aX, float aY, int32_t aButton,
+      int32_t aClickCount, int32_t aModifiers, bool aIgnoreRootScrollFrame,
+      float aPressure, unsigned short aInputSourceArg, uint32_t aIdentifier,
+      bool aToWindow, bool* aPreventDefault, bool aIsDOMEventSynthesized,
+      bool aIsWidgetEventSynthesized, int32_t aButtons, bool aConvertToPointer = true, uint32_t aJugglerEventId = 0);
+
+>>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
   MOZ_CAN_RUN_SCRIPT
   nsresult SendTouchEventCommon(
       const nsAString& aType, const nsTArray<uint32_t>& aIdentifiers,

@@ -749,8 +749,17 @@ LoadInfo::LoadInfo(const LoadInfo& rhs)
       mUnstrippedURI(rhs.mUnstrippedURI),
       mInterceptionInfo(rhs.mInterceptionInfo),
       mSchemelessInput(rhs.mSchemelessInput),
+<<<<<<< HEAD
       mUserNavigationInvolvement(rhs.mUserNavigationInvolvement),
       mSkipHTTPSUpgrade(rhs.mSkipHTTPSUpgrade) {
+||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
+      mHttpsUpgradeTelemetry(rhs.mHttpsUpgradeTelemetry),
+      mIsNewWindowTarget(rhs.mIsNewWindowTarget) {
+=======
+      mHttpsUpgradeTelemetry(rhs.mHttpsUpgradeTelemetry),
+      mIsNewWindowTarget(rhs.mIsNewWindowTarget),
+      mJugglerLoadIdentifier(rhs.mJugglerLoadIdentifier) {
+>>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
 }
 
 LoadInfo::LoadInfo(
@@ -2092,6 +2101,18 @@ void LoadInfo::UpdateParentAddressSpaceInfo() {
     // IPAddress space of the browsing context
     mParentIpAddressSpace = bc->GetCurrentIPAddressSpace();
   }
+}
+
+NS_IMETHODIMP
+LoadInfo::GetJugglerLoadIdentifier(uint64_t* aResult) {
+  *aResult = mJugglerLoadIdentifier;
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+LoadInfo::SetJugglerLoadIdentifier(uint64_t aID) {
+  mJugglerLoadIdentifier = aID;
+  return NS_OK;
 }
 
 }  // namespace mozilla::net

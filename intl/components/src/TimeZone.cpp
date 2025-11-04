@@ -16,6 +16,7 @@
 
 namespace mozilla::intl {
 
+
 /* static */
 Result<UniquePtr<TimeZone>, ICUError> TimeZone::TryCreate(
     Maybe<Span<const char>> aTimeZoneOverride) {
@@ -326,6 +327,13 @@ static ICUResult SetDefaultTimeZone(TimeZoneIdentifierVector& timeZone) {
   return Ok{};
 }
 #endif
+
+bool TimeZone::IsValidTimeZoneId(const char* timeZoneId) {
+  // Validate timezone id.
+  mozilla::UniquePtr<icu::TimeZone> timeZone(icu::TimeZone::createTimeZone(
+      icu::UnicodeString(timeZoneId, -1, US_INV)));
+  return timeZone && *timeZone != icu::TimeZone::getUnknown();
+}
 
 Result<bool, ICUError> TimeZone::SetDefaultTimeZone(
     Span<const char> aTimeZone) {
