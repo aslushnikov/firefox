@@ -732,8 +732,6 @@ interface nsIDocShell : nsIDocShellTreeItem
 
   attribute AString languageOverride;
 
-  boolean overrideTimezone(in AString timezoneId);
-
   cenum ReducedMotionOverride : 8 {
     REDUCED_MOTION_OVERRIDE_REDUCE,
     REDUCED_MOTION_OVERRIDE_NO_PREFERENCE,

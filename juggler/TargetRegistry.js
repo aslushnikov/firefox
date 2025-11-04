@@ -363,10 +363,6 @@ export class TargetRegistry {
       target = this._browserToTarget.get(browser);
     }
     browser.focus();
-    if (browserContext.crossProcessCookie.settings.timezoneId) {
-      if (await target.hasFailedToOverrideTimezone())
-        throw new Error('Failed to override timezone');
-    }
     didCreateFirstPage = true;
     return target.id();
   }
@@ -507,6 +503,7 @@ export class PageTarget {
   updateOverridesForBrowsingContext(browsingContext = undefined) {
     this.updateTouchOverride(browsingContext);
     this.updateUserAgent(browsingContext);
+    this.updateTimezoneOverride(browsingContext);
     this.updatePlatform(browsingContext);
     this.updateDPPXOverride(browsingContext);
     this.updateZoom(browsingContext);
@@ -542,6 +539,10 @@ export class PageTarget {
 
   updateUserAgent(browsingContext = undefined) {
     (browsingContext || this._linkedBrowser.browsingContext).customUserAgent = this._browserContext.defaultUserAgent;
+  }
+
+  updateTimezoneOverride(browsingContext = undefined) {
+    (browsingContext || this._linkedBrowser.browsingContext).timezoneOverride = this._browserContext.timezoneOverride;
   }
 
   updatePlatform(browsingContext = undefined) {
@@ -748,10 +749,6 @@ export class PageTarget {
     await this._channel.connect('').send('applyContextSetting', { name, value }).catch(e => void e);
   }
 
-  async hasFailedToOverrideTimezone() {
-    return await this._channel.connect('').send('hasFailedToOverrideTimezone').catch(e => true);
-  }
-
   async _startVideoRecording({width, height, dir}) {
     // On Mac the window may not yet be visible when TargetCreated and its
     // NSWindow.windowNumber may be -1, so we wait until the window is known
@@ -938,6 +935,7 @@ class BrowserContext {
     this.defaultViewportSize = undefined;
     this.deviceScaleFactor = undefined;
     this.defaultUserAgent = null;
+    this.timezoneOverride = undefined;
     this.defaultPlatform = null;
     this.touchOverride = false;
     this.forceOffline = false;
@@ -1032,6 +1030,14 @@ class BrowserContext {
     this.defaultUserAgent = userAgent;
     for (const page of this.pages)
       page.updateUserAgent();
+  }
+
+  setTimezoneOverride(timezoneId) {
+    if (!Intl.supportedValuesOf("timeZone").includes(timezoneId))
+      throw new Error(`Invalid timezone ID: ${timezoneId}`);
+    this.timezoneOverride = timezoneId;
+    for (const page of this.pages)
+      page.updateTimezoneOverride();
   }
 
   setDefaultPlatform(platform) {

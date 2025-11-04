@@ -153,11 +153,6 @@ bool nsJSUtils::GetEnvironmentChainForElement(JSContext* aCx, Element* aElement,
 }
 
 /* static */
-bool nsJSUtils::SetTimeZoneOverride(const char* timezoneId) {
-  return JS::SetTimeZoneOverride(timezoneId);
-}
-
-/* static */
 void nsJSUtils::ResetTimeZone() { JS::ResetTimeZone(); }
 
 /* static */

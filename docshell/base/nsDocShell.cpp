@@ -3162,30 +3162,6 @@ nsDocShell::SetLanguageOverride(const nsAString& aLanguageOverride) {
 }
 
 NS_IMETHODIMP
-nsDocShell::OverrideTimezone(const nsAString& aTimezoneOverride,
-                             bool* aSuccess) {
-  NS_ENSURE_ARG(aSuccess);
-  NS_LossyConvertUTF16toASCII timeZoneId(aTimezoneOverride);
-  *aSuccess = nsJSUtils::SetTimeZoneOverride(timeZoneId.get());
-
-  // Set TZ which affects localtime_s().
-  auto setTimeZoneEnv = [](const char* value) {
-#if defined(_WIN32)
-    return _putenv_s("TZ", value) == 0;
-#else
-    return setenv("TZ", value, true) == 0;
-#endif /* _WIN32 */
-  };
-  if (*aSuccess) {
-    *aSuccess = setTimeZoneEnv(timeZoneId.get());
-    if (!*aSuccess) {
-      fprintf(stderr, "Failed to set 'TZ' to '%s'\n", timeZoneId.get());
-    }
-  }
-  return NS_OK;
-}
-
-NS_IMETHODIMP
 nsDocShell::GetFileInputInterceptionEnabled(bool* aEnabled) {
   MOZ_ASSERT(aEnabled);
   *aEnabled = GetRootDocShell()->mFileInputInterceptionEnabled;
