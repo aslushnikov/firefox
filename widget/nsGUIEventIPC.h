@@ -251,15 +251,11 @@ struct ParamTraits<mozilla::WidgetMouseEvent> {
                               aParam.mExitFrom.value()));
     }
     WriteParam(aWriter, aParam.mClickCount);
-<<<<<<< HEAD
     WriteParam(aWriter, aParam.mCallbackId);
+    WriteParam(aWriter, aParam.mJugglerEventId);
 
     // Mark the event as stopped to notify callback.
     const_cast<mozilla::WidgetMouseEvent&>(aParam).mCallbackId.reset();
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-=======
-    WriteParam(aWriter, aParam.mJugglerEventId);
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
   }
 
   static bool Read(MessageReader* aReader, paramType* aResult) {
@@ -283,15 +279,9 @@ struct ParamTraits<mozilla::WidgetMouseEvent> {
       rv = rv && ReadParam(aReader, &exitFrom);
       aResult->mExitFrom = Some(static_cast<paramType::ExitFrom>(exitFrom));
     }
-<<<<<<< HEAD
     rv = rv && ReadParam(aReader, &aResult->mClickCount) &&
          ReadParam(aReader, &aResult->mCallbackId);
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-    rv = rv && ReadParam(aReader, &aResult->mClickCount);
-=======
-    rv = rv && ReadParam(aReader, &aResult->mClickCount);
     rv = rv && ReadParam(aReader, &aResult->mJugglerEventId);
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
     return rv;
   }
 };

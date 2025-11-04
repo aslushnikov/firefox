@@ -20,6 +20,8 @@ function hashConsoleMessage(params) {
   return params.location.lineNumber + ':' + params.location.columnNumber + ':' + params.location.url;
 }
 
+let gJugglerEventId = 1000;
+
 class WorkerHandler {
   constructor(session, contentChannel, workerId) {
     this._session = session;
@@ -508,21 +510,26 @@ export class PageHandler {
       const promises = [];
       for (const type of types) {
         // This dispatches to the renderer synchronously.
-        const jugglerEventId = win.windowUtils.jugglerSendMouseEvent(
+        const jugglerEventId = ++gJugglerEventId;
+        win.synthesizeMouseEvent(
           type,
           x + boundingBox.left,
           y + boundingBox.top,
-          button,
-          clickCount,
-          modifiers,
-          false /* aIgnoreRootScrollFrame */,
-          0.0 /* pressure */,
-          0 /* inputSource */,
-          true /* isDOMEventSynthesized */,
-          false /* isWidgetEventSynthesized */,
-          buttons,
-          win.windowUtils.DEFAULT_MOUSE_POINTER_ID /* pointerIdentifier */,
-          false /* disablePointerEvent */
+          {
+            identifier: win.windowUtils.DEFAULT_MOUSE_POINTER_ID,
+            button,
+            buttons,
+            clickCount,
+            modifiers,
+            pressure: 0.0,
+            inputSource: 0,
+          },
+          {
+            isDOMEventSynthesized: true,
+            isWidgetEventSynthesized: false,
+            jugglerEventId,
+            disablePointerEvent: false,
+          }
         );
         promises.push(watcher.ensureEvent(type, eventObject => eventObject.jugglerEventId === jugglerEventId));
       }
@@ -545,21 +552,23 @@ export class PageHandler {
         // viewport coordinates, then move the mouse off from the Web Content.
         // This way we can eliminate all the hover effects.
         // NOTE: since this won't go inside the renderer, there's no need to wait for ACK.
-        win.windowUtils.sendMouseEvent(
+        win.synthesizeMouseEvent(
           'mousemove',
           0 /* x */,
           0 /* y */,
-          button,
-          clickCount,
-          modifiers,
-          false /* aIgnoreRootScrollFrame */,
-          0.0 /* pressure */,
-          0 /* inputSource */,
-          true /* isDOMEventSynthesized */,
-          false /* isWidgetEventSynthesized */,
-          buttons,
-          win.windowUtils.DEFAULT_MOUSE_POINTER_ID /* pointerIdentifier */,
-          false /* disablePointerEvent */
+          {
+            identifier: win.windowUtils.DEFAULT_MOUSE_POINTER_ID,
+            button,
+            clickCount,
+            modifiers,
+            pressure: 0.0,
+            inputSource: 0,
+          },
+          {
+            ignoreRootScrollFrame: false,
+            isDOMEventSynthesized: true,
+            isWidgetEventSynthesized: false,
+          },
         );
         return;
       }

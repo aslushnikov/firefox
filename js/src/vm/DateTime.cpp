@@ -186,54 +186,12 @@ void js::DateTimeInfo::internalResetTimeZone(ResetTimeZoneMode mode) {
   }
 }
 
-<<<<<<< HEAD
-void js::DateTimeInfo::resetState() {
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-void js::DateTimeInfo::updateTimeZone() {
-  MOZ_ASSERT(timeZoneStatus_ != TimeZoneStatus::Valid);
-
-  bool updateIfChanged = timeZoneStatus_ == TimeZoneStatus::UpdateIfChanged;
-
-  timeZoneStatus_ = TimeZoneStatus::Valid;
-
-  /*
-   * The difference between local standard time and UTC will never change for
-   * a given time zone.
-   */
-  int32_t newOffset = UTCToLocalStandardOffsetSeconds();
-
-  if (updateIfChanged && newOffset == utcToLocalStandardOffsetSeconds_) {
-    return;
-  }
-
-  utcToLocalStandardOffsetSeconds_ = newOffset;
-
-=======
 void js::DateTimeInfo::internalSetTimeZoneOverride(std::string timeZone) {
-  timeZoneOverride_ = std::move(timeZone);
+  jugglerTimeZoneOverride_ = std::move(timeZone);
   internalResetTimeZone(ResetTimeZoneMode::ResetEvenIfOffsetUnchanged);
 }
 
-void js::DateTimeInfo::updateTimeZone() {
-  MOZ_ASSERT(timeZoneStatus_ != TimeZoneStatus::Valid);
-
-  bool updateIfChanged = timeZoneStatus_ == TimeZoneStatus::UpdateIfChanged;
-
-  timeZoneStatus_ = TimeZoneStatus::Valid;
-
-  /*
-   * The difference between local standard time and UTC will never change for
-   * a given time zone.
-   */
-  int32_t newOffset = UTCToLocalStandardOffsetSeconds();
-
-  if (updateIfChanged && newOffset == utcToLocalStandardOffsetSeconds_) {
-    return;
-  }
-
-  utcToLocalStandardOffsetSeconds_ = newOffset;
-
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
+void js::DateTimeInfo::resetState() {
   dstRange_.reset();
 
 #if JS_HAS_INTL_API
@@ -874,20 +832,8 @@ static bool ReadTimeZoneLink(std::string_view tz,
 
 void js::DateTimeInfo::internalResyncICUDefaultTimeZone() {
 #if JS_HAS_INTL_API
-<<<<<<< HEAD
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-  // In the future we should not be setting a default ICU time zone at all,
-  // instead all accesses should go through the appropriate DateTimeInfo
-  // instance depending on the resist fingerprinting status. For now we return
-  // early to prevent overwriting the default time zone with the UTC time zone
-  // used by RFP.
-  if (forceUTC_) {
-    return;
-  }
-
-=======
-  if (!timeZoneOverride_.empty()) {
-    mozilla::Span<const char> tzid = mozilla::Span(timeZoneOverride_.data(), timeZoneOverride_.length());
+  if (!jugglerTimeZoneOverride_.empty()) {
+    mozilla::Span<const char> tzid = mozilla::Span(jugglerTimeZoneOverride_.data(), jugglerTimeZoneOverride_.length());
     auto result = mozilla::intl::TimeZone::SetDefaultTimeZone(tzid);
     if (result.isErr()) {
       fprintf(stderr, "ERROR: failed to setup default time zone\n");
@@ -895,16 +841,6 @@ void js::DateTimeInfo::internalResyncICUDefaultTimeZone() {
     return;
   }
 
-  // In the future we should not be setting a default ICU time zone at all,
-  // instead all accesses should go through the appropriate DateTimeInfo
-  // instance depending on the resist fingerprinting status. For now we return
-  // early to prevent overwriting the default time zone with the UTC time zone
-  // used by RFP.
-  if (forceUTC_) {
-    return;
-  }
-
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
   if (const char* tzenv = std::getenv("TZ")) {
     std::string_view tz(tzenv);
     mozilla::Span<const char> tzid;

@@ -591,12 +591,8 @@ float Gecko_MediaFeatures_GetResolution(const mozilla::dom::Document*);
 bool Gecko_MediaFeatures_PrefersReducedMotion(const mozilla::dom::Document*);
 bool Gecko_MediaFeatures_PrefersReducedTransparency(
     const mozilla::dom::Document*);
-<<<<<<< HEAD
 bool Gecko_MediaFeatures_MacRTL(const mozilla::dom::Document*);
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-=======
 bool Gecko_MediaFeatures_ForcedColors(const mozilla::dom::Document*);
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
 mozilla::StylePrefersContrast Gecko_MediaFeatures_PrefersContrast(
     const mozilla::dom::Document*);
 mozilla::StylePrefersColorScheme Gecko_MediaFeatures_PrefersColorScheme(

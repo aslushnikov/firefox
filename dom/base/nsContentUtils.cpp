@@ -9487,26 +9487,11 @@ NS_IMPL_ISUPPORTS(SynthesizedMouseEventCallback, nsISynthesizedEventCallback)
 
 Result<bool, nsresult> nsContentUtils::SynthesizeMouseEvent(
     mozilla::PresShell* aPresShell, nsIWidget* aWidget, const nsAString& aType,
-<<<<<<< HEAD
     LayoutDeviceIntPoint& aRefPoint,
     const SynthesizeMouseEventData& aMouseEventData,
     const SynthesizeMouseEventOptions& aOptions,
     const Optional<OwningNonNull<VoidFunction>>& aCallback) {
   MOZ_ASSERT(aPresShell);
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-    LayoutDeviceIntPoint& aRefPoint, int32_t aButton, int32_t aButtons,
-    int32_t aClickCount, int32_t aModifiers, bool aIgnoreRootScrollFrame,
-    float aPressure, unsigned short aInputSourceArg, uint32_t aIdentifier,
-    bool aToWindow, bool* aPreventDefault, bool aIsDOMEventSynthesized,
-    bool aIsWidgetEventSynthesized) {
-=======
-    LayoutDeviceIntPoint& aRefPoint, int32_t aButton, int32_t aButtons,
-    int32_t aClickCount, int32_t aModifiers, bool aIgnoreRootScrollFrame,
-    float aPressure, unsigned short aInputSourceArg, uint32_t aIdentifier,
-    bool aToWindow, bool* aPreventDefault, bool aIsDOMEventSynthesized,
-    bool aIsWidgetEventSynthesized,
-    bool convertToPointer, uint32_t aJugglerEventId) {
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
   MOZ_ASSERT(aWidget);
   AUTO_PROFILER_LABEL("nsContentUtils::SynthesizeMouseEvent", OTHER);
 
@@ -9576,29 +9561,17 @@ Result<bool, nsresult> nsContentUtils::SynthesizeMouseEvent(
 
   Maybe<WidgetPointerEvent> pointerEvent;
   Maybe<WidgetMouseEvent> mouseEvent;
-<<<<<<< HEAD
-  if (IsPointerEventMessage(msg)) {
-    if (MOZ_UNLIKELY(aOptions.mIsWidgetEventSynthesized)) {
-      MOZ_ASSERT_UNREACHABLE(
-          "The event shouldn't be dispatched as a synthesized event");
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-  if (IsPointerEventMessage(msg)) {
-    MOZ_ASSERT(!aIsWidgetEventSynthesized,
-               "The event shouldn't be dispatched as a synthesized event");
-    if (MOZ_UNLIKELY(aIsWidgetEventSynthesized)) {
-=======
   Maybe<WidgetDragEvent> pwDragEvent;
 
   if (isPWDragEventMessage) {
     pwDragEvent.emplace(true, msg, aWidget);
-    pwDragEvent->mReason = aIsWidgetEventSynthesized
+    pwDragEvent->mReason = aOptions.mIsWidgetEventSynthesized
                              ? WidgetMouseEvent::eSynthesized
                              : WidgetMouseEvent::eReal;
   } else if (IsPointerEventMessage(msg)) {
-    MOZ_ASSERT(!aIsWidgetEventSynthesized,
-               "The event shouldn't be dispatched as a synthesized event");
-    if (MOZ_UNLIKELY(aIsWidgetEventSynthesized)) {
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
+    if (MOZ_UNLIKELY(aOptions.mIsWidgetEventSynthesized)) {
+      MOZ_ASSERT_UNREACHABLE(
+          "The event shouldn't be dispatched as a synthesized event");
       // `click`, `auxclick` nor `contextmenu` should not be dispatched as a
       // synthesized event.
       return Err(NS_ERROR_INVALID_ARG);
@@ -9614,7 +9587,6 @@ Result<bool, nsresult> nsContentUtils::SynthesizeMouseEvent(
                        contextMenuKey ? WidgetMouseEvent::eContextMenuKey
                                       : WidgetMouseEvent::eNormal);
   }
-<<<<<<< HEAD
 
   nsCOMPtr<nsISynthesizedEventCallback> callback;
   if (aCallback.WasPassed()) {
@@ -9623,28 +9595,13 @@ Result<bool, nsresult> nsContentUtils::SynthesizeMouseEvent(
 
   mozilla::widget::AutoSynthesizedEventCallbackNotifier notifier(callback);
 
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-=======
-
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
   WidgetMouseEvent& mouseOrPointerEvent =
       pwDragEvent.isSome() ? pwDragEvent.ref() :
       pointerEvent.isSome() ? pointerEvent.ref() : mouseEvent.ref();
-<<<<<<< HEAD
   mouseOrPointerEvent.pointerId = aMouseEventData.mIdentifier;
   mouseOrPointerEvent.mModifiers =
       GetWidgetModifiers(aMouseEventData.mModifiers);
   mouseOrPointerEvent.mButton = aMouseEventData.mButton;
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-  mouseOrPointerEvent.pointerId = aIdentifier;
-  mouseOrPointerEvent.mModifiers = GetWidgetModifiers(aModifiers);
-  mouseOrPointerEvent.mButton = aButton;
-=======
-
-  mouseOrPointerEvent.pointerId = aIdentifier;
-  mouseOrPointerEvent.mModifiers = GetWidgetModifiers(aModifiers);
-  mouseOrPointerEvent.mButton = aButton;
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
   mouseOrPointerEvent.mButtons =
       aMouseEventData.mButtons.WasPassed()
           ? aMouseEventData.mButtons.Value()
@@ -9660,13 +9617,9 @@ Result<bool, nsresult> nsContentUtils::SynthesizeMouseEvent(
   mouseOrPointerEvent.mFlags.mIsSynthesizedForTests =
       aOptions.mIsDOMEventSynthesized;
   mouseOrPointerEvent.mExitFrom = exitFrom;
-<<<<<<< HEAD
   mouseOrPointerEvent.mCallbackId = notifier.SaveCallback();
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-=======
-  mouseOrPointerEvent.mJugglerEventId = aJugglerEventId;
-  mouseOrPointerEvent.convertToPointer = convertToPointer;
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
+  mouseOrPointerEvent.mJugglerEventId = aOptions.mJugglerEventId;
+  mouseOrPointerEvent.convertToPointer = aOptions.mJugglerConvertToPointer;
 
   nsPresContext* presContext = aPresShell->GetPresContext();
   if (!presContext) {

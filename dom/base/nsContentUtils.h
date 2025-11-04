@@ -3051,25 +3051,10 @@ class nsContentUtils {
   static mozilla::Result<bool, nsresult> SynthesizeMouseEvent(
       mozilla::PresShell* aPresShell, nsIWidget* aWidget,
       const nsAString& aType, mozilla::LayoutDeviceIntPoint& aRefPoint,
-<<<<<<< HEAD
       const mozilla::dom::SynthesizeMouseEventData& aMouseEventData,
       const mozilla::dom::SynthesizeMouseEventOptions& aOptions,
       const mozilla::dom::Optional<
           mozilla::OwningNonNull<mozilla::dom::VoidFunction>>& aCallback);
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-      int32_t aButton, int32_t aButtons, int32_t aClickCount,
-      int32_t aModifiers, bool aIgnoreRootScrollFrame, float aPressure,
-      unsigned short aInputSourceArg, uint32_t aIdentifier, bool aToWindow,
-      bool* aPreventDefault, bool aIsDOMEventSynthesized,
-      bool aIsWidgetEventSynthesized);
-=======
-      int32_t aButton, int32_t aButtons, int32_t aClickCount,
-      int32_t aModifiers, bool aIgnoreRootScrollFrame, float aPressure,
-      unsigned short aInputSourceArg, uint32_t aIdentifier, bool aToWindow,
-      bool* aPreventDefault,
-      bool aIsDOMEventSynthesized, bool aIsWidgetEventSynthesized,
-      bool convertToPointer = true, uint32_t aJugglerEventId = 0);
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
 
   static void FirePageShowEventForFrameLoaderSwap(
       nsIDocShellTreeItem* aItem,

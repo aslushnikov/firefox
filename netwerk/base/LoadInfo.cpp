@@ -749,17 +749,9 @@ LoadInfo::LoadInfo(const LoadInfo& rhs)
       mUnstrippedURI(rhs.mUnstrippedURI),
       mInterceptionInfo(rhs.mInterceptionInfo),
       mSchemelessInput(rhs.mSchemelessInput),
-<<<<<<< HEAD
       mUserNavigationInvolvement(rhs.mUserNavigationInvolvement),
-      mSkipHTTPSUpgrade(rhs.mSkipHTTPSUpgrade) {
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-      mHttpsUpgradeTelemetry(rhs.mHttpsUpgradeTelemetry),
-      mIsNewWindowTarget(rhs.mIsNewWindowTarget) {
-=======
-      mHttpsUpgradeTelemetry(rhs.mHttpsUpgradeTelemetry),
-      mIsNewWindowTarget(rhs.mIsNewWindowTarget),
+      mSkipHTTPSUpgrade(rhs.mSkipHTTPSUpgrade),
       mJugglerLoadIdentifier(rhs.mJugglerLoadIdentifier) {
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
 }
 
 LoadInfo::LoadInfo(

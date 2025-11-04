@@ -394,7 +394,7 @@ class DateTimeInfo {
   JS::UniqueTwoByteChars standardName_;
   JS::UniqueTwoByteChars daylightSavingsName_;
 
-  std::string timeZoneOverride_;
+  std::string jugglerTimeZoneOverride_;
 #else
   // Restrict the data-time range to the minimum required time_t range as
   // specified in POSIX. Most operating systems support 64-bit time_t
@@ -410,14 +410,10 @@ class DateTimeInfo {
 
   void internalResetTimeZone(ResetTimeZoneMode mode);
 
-<<<<<<< HEAD
   void resetState();
 
-||||||| parent of 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
-=======
   void internalSetTimeZoneOverride(std::string timeZone);
 
->>>>>>> 30f11a9a493a (chore(ff-beta): bootstrap build #1491)
   void updateTimeZone();
 
   void internalResyncICUDefaultTimeZone();
