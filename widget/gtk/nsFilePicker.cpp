@@ -22,12 +22,7 @@
 #include "mozilla/Components.h"
 #include "mozilla/Preferences.h"
 #include "mozilla/dom/Promise.h"
-<<<<<<< HEAD
 #include "mozilla/dom/Document.h"
-||||||| parent of a3ce1f9ac137 (chore(ff): bootstrap build #1497)
-=======
-#include "gfxPlatform.h"
->>>>>>> a3ce1f9ac137 (chore(ff): bootstrap build #1497)
 
 #include "nsArrayEnumerator.h"
 #include "nsEnumeratorUtils.h"
