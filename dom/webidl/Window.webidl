@@ -424,9 +424,6 @@ dictionary SynthesizeMouseEventOptions {
   // Set this to true to ensure that the event is dispatched to this DOM window
   // or one of its children.
   boolean toWindow = false;
-  // juggler: unique ID of the event to bind browser-side events
-  // with renderer-side dispatches. Defaults to 0.
-  unsigned long jugglerEventId = 0;
   boolean jugglerConvertToPointer = true;
 };
 

@@ -20,8 +20,6 @@ function hashConsoleMessage(params) {
   return params.location.lineNumber + ':' + params.location.columnNumber + ':' + params.location.url;
 }
 
-let gJugglerEventId = 1000;
-
 class WorkerHandler {
   constructor(session, contentChannel, workerId) {
     this._session = session;
@@ -506,12 +504,9 @@ export class PageHandler {
       if (win.windowUtils.flushApzRepaints())
         await helper.awaitTopic('apz-repaints-flushed');
 
-      const watcher = new EventWatcher(this._pageEventSink, types, this._pendingEventWatchers);
       const promises = [];
       for (const type of types) {
-        // This dispatches to the renderer synchronously.
-        const jugglerEventId = ++gJugglerEventId;
-        win.synthesizeMouseEvent(
+        promises.push(new Promise(resolve => win.synthesizeMouseEvent(
           type,
           x + boundingBox.left,
           y + boundingBox.top,
@@ -527,14 +522,12 @@ export class PageHandler {
           {
             isDOMEventSynthesized: true,
             isWidgetEventSynthesized: false,
-            jugglerEventId,
-            disablePointerEvent: false,
-          }
-        );
-        promises.push(watcher.ensureEvent(type, eventObject => eventObject.jugglerEventId === jugglerEventId));
+            isAsyncEnabled: false,
+          },
+          resolve
+        )));
       }
       await Promise.all(promises);
-      await watcher.dispose();
     };
 
     // We must switch to proper tab in the tabbed browser so that

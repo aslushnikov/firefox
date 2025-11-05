@@ -9648,7 +9648,6 @@ Result<bool, nsresult> nsContentUtils::SynthesizeMouseEvent(
       aOptions.mIsDOMEventSynthesized;
   mouseOrPointerEvent.mExitFrom = exitFrom;
   mouseOrPointerEvent.mCallbackId = notifier.SaveCallback();
-  mouseOrPointerEvent.mJugglerEventId = aOptions.mJugglerEventId;
   mouseOrPointerEvent.convertToPointer = aOptions.mJugglerConvertToPointer;
 
   nsPresContext* presContext = aPresShell->GetPresContext();
