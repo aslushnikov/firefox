@@ -1936,13 +1936,6 @@ void RuntimeService::PropagateStorageAccessPermissionGranted(
   }
 }
 
-void RuntimeService::ResetDefaultLocaleInAllWorkers() {
-  AssertIsOnMainThread();
-  BroadcastAllWorkers([](auto& worker) {
-    worker.ResetDefaultLocale();
-  });
-}
-
 template <typename Func>
 void RuntimeService::BroadcastAllWorkers(const Func& aFunc) {
   AssertIsOnMainThread();
@@ -2501,14 +2494,6 @@ void PropagateStorageAccessPermissionGrantedToWorkers(
   RuntimeService* runtime = RuntimeService::GetService();
   if (runtime) {
     runtime->PropagateStorageAccessPermissionGranted(aWindow);
-  }
-}
-
-void ResetDefaultLocaleInAllWorkers() {
-  AssertIsOnMainThread();
-  RuntimeService* runtime = RuntimeService::GetService();
-  if (runtime) {
-    runtime->ResetDefaultLocaleInAllWorkers();
   }
 }
 

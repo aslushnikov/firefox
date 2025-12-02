@@ -1407,7 +1407,6 @@ class nsDocShell final : public nsDocLoader,
   bool mBypassCSPEnabled : 1;
   bool mForceActiveState : 1;
   bool mDisallowBFCache : 1;
-  nsString mLanguageOverride;
   RefPtr<nsGeolocationService> mGeolocationServiceOverride;
   ReducedMotionOverride mReducedMotionOverride;
   ForcedColorsOverride mForcedColorsOverride;

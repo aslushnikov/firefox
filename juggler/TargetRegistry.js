@@ -504,6 +504,7 @@ export class PageTarget {
     this.updateTouchOverride(browsingContext);
     this.updateUserAgent(browsingContext);
     this.updateTimezoneOverride(browsingContext);
+    this.updateLanguageOverride(browsingContext);
     this.updatePlatform(browsingContext);
     this.updateDPPXOverride(browsingContext);
     this.updateZoom(browsingContext);
@@ -543,6 +544,10 @@ export class PageTarget {
 
   updateTimezoneOverride(browsingContext = undefined) {
     (browsingContext || this._linkedBrowser.browsingContext).timezoneOverride = this._browserContext.timezoneOverride;
+  }
+
+  updateLanguageOverride(browsingContext = undefined) {
+    (browsingContext || this._linkedBrowser.browsingContext).languageOverride = this._browserContext.languageOverride;
   }
 
   updatePlatform(browsingContext = undefined) {
@@ -936,6 +941,7 @@ class BrowserContext {
     this.deviceScaleFactor = undefined;
     this.defaultUserAgent = null;
     this.timezoneOverride = undefined;
+    this.languageOverride = undefined;
     this.defaultPlatform = null;
     this.touchOverride = false;
     this.forceOffline = false;
@@ -1038,6 +1044,12 @@ class BrowserContext {
     this.timezoneOverride = timezoneId;
     for (const page of this.pages)
       page.updateTimezoneOverride();
+  }
+
+  setLanguageOverride(locale) {
+    this.languageOverride = locale;
+    for (const page of this.pages)
+      page.updateLanguageOverride();
   }
 
   setDefaultPlatform(platform) {

@@ -251,7 +251,7 @@ export class BrowserHandler {
   }
 
   async ['Browser.setLocaleOverride']({browserContextId, locale}) {
-    await this._targetRegistry.browserContextForId(browserContextId).applySetting('locale', nullToUndefined(locale));
+    await this._targetRegistry.browserContextForId(browserContextId).setLanguageOverride(nullToUndefined(locale));
   }
 
   async ['Browser.setTimezoneOverride']({browserContextId, timezoneId}) {

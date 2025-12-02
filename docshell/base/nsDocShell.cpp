@@ -3131,40 +3131,6 @@ bool nsDocShell::ShouldOverrideHasFocus() const {
 }
 
 NS_IMETHODIMP
-nsDocShell::GetLanguageOverride(nsAString& aLanguageOverride) {
-  aLanguageOverride = GetRootDocShell()->mLanguageOverride;
-  return NS_OK;
-}
-
-
-static void SetIcuLocale(const nsAString& aLanguageOverride) {
-  icu::Locale locale(NS_LossyConvertUTF16toASCII(aLanguageOverride).get());
-  if (icu::Locale::getDefault() != locale) {
-    UErrorCode error_code = U_ZERO_ERROR;
-    const char* lang = locale.getLanguage();
-    if (lang != nullptr && *lang != '\0') {
-      icu::Locale::setDefault(locale, error_code);
-    } else {
-      fprintf(stderr, "SetIcuLocale Failed to set the ICU default locale to %s\n", NS_LossyConvertUTF16toASCII(aLanguageOverride).get());
-    }
-  }
-
-  AutoJSAPI jsapi;
-  jsapi.Init();
-  JSContext* cx = jsapi.cx();
-  JS_ResetDefaultLocale(JS_GetRuntime(cx));
-
-  ResetDefaultLocaleInAllWorkers();
-}
-
-NS_IMETHODIMP
-nsDocShell::SetLanguageOverride(const nsAString& aLanguageOverride) {
-  mLanguageOverride = aLanguageOverride;
-  SetIcuLocale(aLanguageOverride);
-  return NS_OK;
-}
-
-NS_IMETHODIMP
 nsDocShell::GetFileInputInterceptionEnabled(bool* aEnabled) {
   MOZ_ASSERT(aEnabled);
   *aEnabled = GetRootDocShell()->mFileInputInterceptionEnabled;
