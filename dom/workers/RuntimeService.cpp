@@ -1117,13 +1117,7 @@ void PrefLanguagesChanged(const char* /* aPrefName */, void* /* aClosure */) {
   AssertIsOnMainThread();
 
   nsTArray<nsString> languages;
-<<<<<<< HEAD
   Navigator::GetAcceptLanguages(languages, nullptr);
-||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
-  Navigator::GetAcceptLanguages(languages);
-=======
-  Navigator::GetAcceptLanguages(nullptr, languages);
->>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 
   RuntimeService* runtime = RuntimeService::GetService();
   if (runtime) {
@@ -1313,15 +1307,8 @@ bool RuntimeService::RegisterWorker(WorkerPrivate& aWorkerPrivate) {
       }
 
       // The navigator overridden properties should have already been read.
-<<<<<<< HEAD
 
       Navigator::GetAcceptLanguages(mNavigatorProperties.mLanguages, nullptr);
-||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
-
-      Navigator::GetAcceptLanguages(mNavigatorProperties.mLanguages);
-=======
-      Navigator::GetAcceptLanguages(nullptr, mNavigatorProperties.mLanguages);
->>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
       mNavigatorPropertiesLoaded = true;
     }
 

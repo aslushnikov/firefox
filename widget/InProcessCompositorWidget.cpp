@@ -7,15 +7,9 @@
 #include "HeadlessCompositorWidget.h"
 #include "HeadlessWidget.h"
 #include "mozilla/VsyncDispatcher.h"
-<<<<<<< HEAD
 #include "mozilla/layers/NativeLayer.h"
 #include "nsIWidget.h"
-||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
-#include "nsBaseWidget.h"
-=======
 #include "mozilla/widget/PlatformWidgetTypes.h"
-#include "nsBaseWidget.h"
->>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 
 namespace mozilla {
 namespace widget {

@@ -2308,7 +2308,6 @@ nsExternalAppHandler::OnSaveComplete(nsIBackgroundFileSaver* aSaver,
       nsCString noError;
       nsresult rv = interceptor->OnDownloadComplete(this, noError);
       MOZ_ASSERT(NS_SUCCEEDED(rv), "Failed to call nsIDowloadInterceptor.OnDownloadComplete");
-      Unused << rv;
     }
   }
 
@@ -2801,7 +2800,6 @@ NS_IMETHODIMP nsExternalAppHandler::Cancel(nsresult aReason) {
     GetErrorName(aReason, errorName);
     nsresult rv = interceptor->OnDownloadComplete(this, errorName);
     MOZ_ASSERT(NS_SUCCEEDED(rv), "Failed notify nsIDowloadInterceptor about cancel");
-    Unused << rv;
   }
 
   // Break our reference cycle with the helper app dialog (set up in

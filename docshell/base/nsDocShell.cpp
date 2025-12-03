@@ -16,18 +16,12 @@
 #  include <unistd.h>  // for getpid()
 #endif
 
-<<<<<<< HEAD
-||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
-#include "mozilla/ArrayUtils.h"
-=======
 #if JS_HAS_INTL_API && !MOZ_SYSTEM_ICU
 #  include "unicode/locid.h"
 #endif /* JS_HAS_INTL_API && !MOZ_SYSTEM_ICU */
 
 #include "js/LocaleSensitive.h"
 
-#include "mozilla/ArrayUtils.h"
->>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 #include "mozilla/Attributes.h"
 #include "mozilla/AutoRestore.h"
 #include "mozilla/BasePrincipal.h"

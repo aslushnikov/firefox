@@ -4247,7 +4247,6 @@ void BrowsingContext::DidSet(FieldIndex<IDX_IsUnderHiddenEmbedderElement>,
   }
 }
 
-<<<<<<< HEAD
 void BrowsingContext::DidSet(FieldIndex<IDX_ForceOffline>, bool aOldValue) {
   const bool newValue = ForceOffline();
   if (newValue == aOldValue) {
@@ -4264,26 +4263,6 @@ void BrowsingContext::DidSet(FieldIndex<IDX_ForceOffline>, bool aOldValue) {
   });
 }
 
-||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
-=======
-void BrowsingContext::DidSet(FieldIndex<IDX_ForceOffline>, bool aOldValue) {
-  const bool newValue = ForceOffline();
-  if (newValue == aOldValue) {
-    return;
-  }
-  PreOrderWalk([&](BrowsingContext* aContext) {
-    if (Document* doc = aContext->GetDocument()) {
-      if (nsPIDOMWindowOuter* win = aContext->GetDOMWindow()) {
-        nsContentUtils::DispatchTrustedEvent(
-            doc, nsGlobalWindowOuter::Cast(win),
-            newValue ? u"offline"_ns : u"online"_ns,
-            CanBubble::eYes, Cancelable::eYes, nullptr);
-      }
-    }
-  });
-}
-
->>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 bool BrowsingContext::IsPopupAllowed() {
   for (auto* context = GetCurrentWindowContext(); context;
        context = context->GetParentWindowContext()) {

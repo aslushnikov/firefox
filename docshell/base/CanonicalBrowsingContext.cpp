@@ -274,13 +274,9 @@ void CanonicalBrowsingContext::ReplacedBy(
   txn.SetForceOffline(GetForceOffline());
   txn.SetTopInnerSizeForRFP(GetTopInnerSizeForRFP());
   txn.SetIPAddressSpace(GetIPAddressSpace());
-<<<<<<< HEAD
   txn.SetParentalControlsEnabled(GetParentalControlsEnabled());
-||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
-=======
   txn.SetPrefersReducedMotionOverride(GetPrefersReducedMotionOverride());
   txn.SetForcedColorsOverride(GetForcedColorsOverride());
->>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 
   if (!GetLanguageOverride().IsEmpty()) {
     // Reapply language override to update the corresponding realm.
@@ -1906,21 +1902,17 @@ void CanonicalBrowsingContext::LoadURI(nsIURI* aURI,
     return;
   }
 
-<<<<<<< HEAD
   // Set the captive portal tab flag on the browsing context if requested
   if (loadState->GetIsCaptivePortalTab()) {
     (void)SetIsCaptivePortalTab(true);
   }
 
-||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
-=======
   {
     nsCOMPtr<nsIObserverService> observerService = mozilla::services::GetObserverService();
     if (observerService) {
       observerService->NotifyObservers(ToSupports(this), "juggler-navigation-started-browser", NS_ConvertASCIItoUTF16(nsPrintfCString("%" PRIu64, loadState->GetLoadIdentifier())).get());
     }
   }
->>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
   LoadURI(loadState, true);
 }
 

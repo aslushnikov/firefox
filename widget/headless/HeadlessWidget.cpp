@@ -113,15 +113,9 @@ void HeadlessWidget::Destroy() {
     }
   }
 
-<<<<<<< HEAD
-  nsIWidget::OnDestroy();
-||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
-  nsBaseWidget::OnDestroy();
-=======
   SetSnapshotListener(nullptr);
 
-  nsBaseWidget::OnDestroy();
->>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
+  nsIWidget::OnDestroy();
 
   nsIWidget::Destroy();
 }
