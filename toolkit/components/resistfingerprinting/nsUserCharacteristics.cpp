@@ -589,7 +589,13 @@ void PopulateLanguages() {
   // sufficient to only collect this information as the other properties are
   // just reformats of Navigator::GetAcceptLanguages.
   nsTArray<nsString> languages;
+<<<<<<< HEAD
   dom::Navigator::GetAcceptLanguages(languages, nullptr);
+||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
+  dom::Navigator::GetAcceptLanguages(languages);
+=======
+  dom::Navigator::GetAcceptLanguages(nullptr, languages);
+>>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
   nsCString output = "["_ns;
 
   for (const auto& language : languages) {

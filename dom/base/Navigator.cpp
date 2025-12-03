@@ -338,19 +338,37 @@ void Navigator::GetAppName(nsAString& aAppName) const {
  * for more detail.
  */
 /* static */
+<<<<<<< HEAD
 void Navigator::GetAcceptLanguages(nsTArray<nsString>& aLanguages,
                                    const nsCString* aLanguageOverride) {
+||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
+void Navigator::GetAcceptLanguages(nsTArray<nsString>& aLanguages) {
+=======
+void Navigator::GetAcceptLanguages(const nsString* aLanguageOverride, nsTArray<nsString>& aLanguages) {
+>>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
   MOZ_ASSERT(NS_IsMainThread());
 
   aLanguages.Clear();
 
   // E.g. "de-de, en-us,en".
+<<<<<<< HEAD
   nsAutoCString acceptLang;
   if (aLanguageOverride) {
     acceptLang.Assign(aLanguageOverride->get());
   } else {
     intl::LocaleService::GetInstance()->GetAcceptLanguages(acceptLang);
   }
+||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
+  nsAutoString acceptLang;
+  Preferences::GetLocalizedString("intl.accept_languages", acceptLang);
+=======
+  nsAutoString acceptLang;
+  if (aLanguageOverride && aLanguageOverride->Length())
+    acceptLang = *aLanguageOverride;
+  else
+    Preferences::GetLocalizedString("intl.accept_languages", acceptLang);
+    
+>>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 
   // Split values on commas.
   for (nsDependentCSubstring lang :
@@ -402,6 +420,7 @@ void Navigator::GetLanguage(nsAString& aLanguage) {
 }
 
 void Navigator::GetLanguages(nsTArray<nsString>& aLanguages) {
+<<<<<<< HEAD
   BrowsingContext* bc = mWindow ? mWindow->GetBrowsingContext() : nullptr;
   if (bc) {
     const nsCString& languageOverride = bc->Top()->GetLanguageOverride();
@@ -414,6 +433,17 @@ void Navigator::GetLanguages(nsTArray<nsString>& aLanguages) {
   }
 
   GetAcceptLanguages(aLanguages, nullptr);
+||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
+  GetAcceptLanguages(aLanguages);
+=======
+  if (mWindow && mWindow->GetDocShell()) {
+    nsString languageOverride;
+    mWindow->GetDocShell()->GetLanguageOverride(languageOverride);
+    GetAcceptLanguages(&languageOverride, aLanguages);
+  } else {
+    GetAcceptLanguages(nullptr, aLanguages);
+  }
+>>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 
   // The returned value is cached by the binding code. The window listens to the
   // accept languages change and will clear the cache when needed. It has to
@@ -2336,7 +2366,8 @@ bool Navigator::Webdriver() {
   }
 #endif
 
-  return false;
+  // Playwright is automating the browser, so we should pretend to be a webdriver
+  return true;
 }
 
 AutoplayPolicy Navigator::GetAutoplayPolicy(AutoplayPolicyMediaType aType) {

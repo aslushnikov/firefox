@@ -225,8 +225,14 @@ class Navigator final : public nsISupports, public nsWrapperCache {
 
   StorageManager* Storage();
 
+<<<<<<< HEAD
   static void GetAcceptLanguages(nsTArray<nsString>& aLanguages,
                                  const nsCString* aLanguageOverride);
+||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
+  static void GetAcceptLanguages(nsTArray<nsString>& aLanguages);
+=======
+  static void GetAcceptLanguages(const nsString* aLanguageOverride, nsTArray<nsString>& aLanguages);
+>>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 
   dom::MediaCapabilities* MediaCapabilities();
   dom::MediaSession* MediaSession();

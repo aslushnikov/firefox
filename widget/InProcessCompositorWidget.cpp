@@ -4,9 +4,18 @@
 
 #include "InProcessCompositorWidget.h"
 
+#include "HeadlessCompositorWidget.h"
+#include "HeadlessWidget.h"
 #include "mozilla/VsyncDispatcher.h"
+<<<<<<< HEAD
 #include "mozilla/layers/NativeLayer.h"
 #include "nsIWidget.h"
+||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
+#include "nsBaseWidget.h"
+=======
+#include "mozilla/widget/PlatformWidgetTypes.h"
+#include "nsBaseWidget.h"
+>>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 
 namespace mozilla {
 namespace widget {
@@ -27,6 +36,12 @@ RefPtr<CompositorWidget> CompositorWidget::CreateLocal(
   // do it after the static_cast.
   nsIWidget* widget = static_cast<nsIWidget*>(aWidget);
   MOZ_RELEASE_ASSERT(widget);
+  if (aInitData.type() ==
+      CompositorWidgetInitData::THeadlessCompositorWidgetInitData) {
+    return new HeadlessCompositorWidget(
+        aInitData.get_HeadlessCompositorWidgetInitData(), aOptions,
+        static_cast<HeadlessWidget*>(aWidget));
+  }
   return new InProcessCompositorWidget(aOptions, widget);
 }
 #endif

@@ -116,8 +116,15 @@ struct ParamTraits<mozilla::dom::DisplayMode>
 
 template <>
 struct ParamTraits<mozilla::dom::PrefersColorSchemeOverride>
-    : public mozilla::dom::WebIDLEnumSerializer<
-          mozilla::dom::PrefersColorSchemeOverride> {};
+    : public mozilla::dom::WebIDLEnumSerializer<mozilla::dom::PrefersColorSchemeOverride> {};
+
+template <>
+struct ParamTraits<mozilla::dom::PrefersReducedMotionOverride>
+    : public mozilla::dom::WebIDLEnumSerializer<mozilla::dom::PrefersReducedMotionOverride> {};
+
+template <>
+struct ParamTraits<mozilla::dom::PrefersContrastOverride>
+    : public mozilla::dom::WebIDLEnumSerializer<mozilla::dom::PrefersContrastOverride> {};
 
 template <>
 struct ParamTraits<mozilla::dom::ForcedColorsOverride>
@@ -3342,6 +3349,32 @@ void BrowsingContext::DidSet(FieldIndex<IDX_LanguageOverride>,
   });
 }
 
+void BrowsingContext::DidSet(FieldIndex<IDX_PrefersContrastOverride>,
+                             dom::PrefersContrastOverride aOldValue) {
+  MOZ_ASSERT(IsTop());
+  if (PrefersContrastOverride() == aOldValue) {
+    return;
+  }
+  PresContextAffectingFieldChanged();
+}
+
+void BrowsingContext::DidSet(FieldIndex<IDX_PrefersReducedMotionOverride>,
+                             dom::PrefersReducedMotionOverride aOldValue) {
+  MOZ_ASSERT(IsTop());
+  if (PrefersReducedMotionOverride() == aOldValue) {
+    return;
+  }
+  PreOrderWalk([&](BrowsingContext* aContext) {
+    if (nsIDocShell* shell = aContext->GetDocShell()) {
+      if (nsPresContext* pc = shell->GetPresContext()) {
+        pc->MediaFeatureValuesChanged(
+            {MediaFeatureChangeReason::SystemMetricsChange},
+            MediaFeatureChangePropagation::JustThisDocument);
+      }
+    }
+  });
+}
+
 void BrowsingContext::DidSet(FieldIndex<IDX_MediumOverride>,
                              nsString&& aOldValue) {
   MOZ_ASSERT(IsTop());
@@ -3689,7 +3722,7 @@ void BrowsingContext::SetGeolocationServiceOverride(
   if (aGeolocationOverride.WasPassed()) {
     if (!mGeolocationServiceOverride) {
       mGeolocationServiceOverride = new nsGeolocationService();
-      mGeolocationServiceOverride->Init();
+      mGeolocationServiceOverride->Init(true /* isOverride */);
     }
     mGeolocationServiceOverride->Update(aGeolocationOverride.Value());
   } else if (RefPtr<nsGeolocationService> serviceOverride =
@@ -4214,6 +4247,7 @@ void BrowsingContext::DidSet(FieldIndex<IDX_IsUnderHiddenEmbedderElement>,
   }
 }
 
+<<<<<<< HEAD
 void BrowsingContext::DidSet(FieldIndex<IDX_ForceOffline>, bool aOldValue) {
   const bool newValue = ForceOffline();
   if (newValue == aOldValue) {
@@ -4230,6 +4264,26 @@ void BrowsingContext::DidSet(FieldIndex<IDX_ForceOffline>, bool aOldValue) {
   });
 }
 
+||||||| parent of e1217df4484f (chore(ff-beta): bootstrap build #1497)
+=======
+void BrowsingContext::DidSet(FieldIndex<IDX_ForceOffline>, bool aOldValue) {
+  const bool newValue = ForceOffline();
+  if (newValue == aOldValue) {
+    return;
+  }
+  PreOrderWalk([&](BrowsingContext* aContext) {
+    if (Document* doc = aContext->GetDocument()) {
+      if (nsPIDOMWindowOuter* win = aContext->GetDOMWindow()) {
+        nsContentUtils::DispatchTrustedEvent(
+            doc, nsGlobalWindowOuter::Cast(win),
+            newValue ? u"offline"_ns : u"online"_ns,
+            CanBubble::eYes, Cancelable::eYes, nullptr);
+      }
+    }
+  });
+}
+
+>>>>>>> e1217df4484f (chore(ff-beta): bootstrap build #1497)
 bool BrowsingContext::IsPopupAllowed() {
   for (auto* context = GetCurrentWindowContext(); context;
        context = context->GetParentWindowContext()) {
