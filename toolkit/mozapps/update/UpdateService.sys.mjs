@@ -4021,6 +4021,8 @@ export class UpdateService {
   }
 
   get disabledForTesting() {
+    /* playwright */
+    return true;
     return lazy.UpdateServiceStub.updateDisabledForTesting;
   }
 
