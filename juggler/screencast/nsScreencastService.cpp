@@ -16,8 +16,7 @@
 #include "nsIRandomGenerator.h"
 #include "nsISupportsPrimitives.h"
 #include "nsThreadManager.h"
-#include "nsView.h"
-#include "nsViewManager.h"
+#include "mozilla/PresShellWidgetListener.h"
 #include "modules/desktop_capture/desktop_capturer.h"
 #include "modules/desktop_capture/desktop_capture_options.h"
 #include "modules/desktop_capture/desktop_frame.h"
@@ -297,13 +296,10 @@ nsresult nsScreencastService::StartScreencast(nsIScreencastServiceClient* aClien
   PresShell* presShell = aDocShell->GetPresShell();
   if (!presShell)
     return NS_ERROR_UNEXPECTED;
-  nsViewManager* viewManager = presShell->GetViewManager();
-  if (!viewManager)
+  PresShellWidgetListener* widgetListener = presShell->GetWidgetListener();
+  if (!widgetListener)
     return NS_ERROR_UNEXPECTED;
-  nsView* view = viewManager->GetRootView();
-  if (!view)
-    return NS_ERROR_UNEXPECTED;
-  nsIWidget* widget = view->GetWidget();
+  nsIWidget* widget = widgetListener->GetWidget();
 
   webrtc::scoped_refptr<webrtc::VideoCaptureModuleEx> capturer = nullptr;
   for (auto& it : mIdToSession) {

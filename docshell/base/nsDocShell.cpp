@@ -16,17 +16,13 @@
 #  include <unistd.h>  // for getpid()
 #endif
 
-<<<<<<< HEAD
 #include "nsDeviceContext.h"
-||||||| parent of 115d23f38052 (chore(ff-beta): bootstrap build #1503)
-=======
 #if JS_HAS_INTL_API && !MOZ_SYSTEM_ICU
 #  include "unicode/locid.h"
 #endif /* JS_HAS_INTL_API && !MOZ_SYSTEM_ICU */
 
 #include "js/LocaleSensitive.h"
 
->>>>>>> 115d23f38052 (chore(ff-beta): bootstrap build #1503)
 #include "mozilla/Attributes.h"
 #include "mozilla/AutoRestore.h"
 #include "mozilla/BasePrincipal.h"

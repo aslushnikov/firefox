@@ -699,7 +699,6 @@ already_AddRefed<Promise> FetchRequest(nsIGlobalObject* aGlobal,
     ipcArgs.hasCSPEventListener() = false;
     ipcArgs.isWorkerRequest() = false;
 
-<<<<<<< HEAD
     if (window && window->GetBrowsingContext()) {
       ipcArgs.associatedBrowsingContextID() =
           window->GetBrowsingContext()->Id();
@@ -710,15 +709,6 @@ already_AddRefed<Promise> FetchRequest(nsIGlobalObject* aGlobal,
       actor->SetOriginStack(std::move(stack));
     }
 
-||||||| parent of 115d23f38052 (chore(ff-beta): bootstrap build #1503)
-=======
-    /* --> Playwright: associate keep-alive fetch with the window */
-    BrowsingContext* bc = window ? window->GetBrowsingContext() : nullptr;
-    if (bc)
-      ipcArgs.associatedBrowsingContextID() = bc->Id();
-    /* <-- Playwright */
-
->>>>>>> 115d23f38052 (chore(ff-beta): bootstrap build #1503)
     actor->DoFetchOp(ipcArgs);
 
     return p.forget();
