@@ -426,14 +426,6 @@ class nsDocShell final : public nsDocLoader,
   void SetWillChangeProcess() { mWillChangeProcess = true; }
   bool WillChangeProcess() { return mWillChangeProcess; }
 
-<<<<<<< HEAD
-||||||| parent of a6e2620d4755 (chore(ff-beta): bootstrap build #1504)
-  // Create a content viewer within this nsDocShell for the given
-  // `WindowGlobalChild` actor.
-  nsresult CreateDocumentViewerForActor(
-      mozilla::dom::WindowGlobalChild* aWindowActor);
-
-=======
   bool IsFileInputInterceptionEnabled();
   void FilePickerShown(mozilla::dom::Element* element);
 
@@ -443,12 +435,6 @@ class nsDocShell final : public nsDocLoader,
 
   RefPtr<nsGeolocationService> GetGeolocationServiceOverride();
 
-  // Create a content viewer within this nsDocShell for the given
-  // `WindowGlobalChild` actor.
-  nsresult CreateDocumentViewerForActor(
-      mozilla::dom::WindowGlobalChild* aWindowActor);
-
->>>>>>> a6e2620d4755 (chore(ff-beta): bootstrap build #1504)
   // Creates a real network channel (not a DocumentChannel) using the specified
   // parameters.
   // Used by nsDocShell when not using DocumentChannel, by DocumentLoadListener

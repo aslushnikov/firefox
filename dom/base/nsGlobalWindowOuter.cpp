@@ -2513,20 +2513,7 @@ nsresult nsGlobalWindowOuter::SetNewDocument(Document* aDocument,
       return mDoc->IsInitialDocument();
     }();
 
-<<<<<<< HEAD
     if (!isAboutBlankInChromeDocshell) {
-      newInnerWindow->mHasNotifiedGlobalCreated = true;
-      nsContentUtils::AddScriptRunner(NewRunnableMethod(
-          "nsGlobalWindowOuter::DispatchDOMWindowCreated", this,
-          &nsGlobalWindowOuter::DispatchDOMWindowCreated));
-||||||| parent of a6e2620d4755 (chore(ff-beta): bootstrap build #1504)
-    if (!isContentAboutBlankInChromeDocshell) {
-      newInnerWindow->mHasNotifiedGlobalCreated = true;
-      nsContentUtils::AddScriptRunner(NewRunnableMethod(
-          "nsGlobalWindowOuter::DispatchDOMWindowCreated", this,
-          &nsGlobalWindowOuter::DispatchDOMWindowCreated));
-=======
-    if (!isContentAboutBlankInChromeDocshell) {
       if (!newInnerWindow->mHasNotifiedGlobalCreated) {
         newInnerWindow->mHasNotifiedGlobalCreated = true;
         nsContentUtils::AddScriptRunner(NewRunnableMethod(
@@ -2537,7 +2524,6 @@ nsresult nsGlobalWindowOuter::SetNewDocument(Document* aDocument,
             "nsGlobalWindowOuter::JugglerDispatchDOMWindowReused", this,
             &nsGlobalWindowOuter::JugglerDispatchDOMWindowReused));
       }
->>>>>>> a6e2620d4755 (chore(ff-beta): bootstrap build #1504)
     }
   }
 

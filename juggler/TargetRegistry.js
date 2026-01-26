@@ -192,7 +192,7 @@ export class TargetRegistry {
       //
       // In this case, we want to keep this callback synchronous so that we will call
       // `onTabOpenListener` synchronously and before the sync IPc message `juggler:content-ready`.
-      if (domWindow.document.readyState === 'uninitialized' || domWindow.document.readyState === 'loading') {
+      if (domWindow.document.readyState === 'uninitialized' || domWindow.document.readyState === 'loading' || !domWindow.gBrowser) {
         // For non-initialized windows, DOMContentLoaded initializes gBrowser
         // and starts tab loading (see //browser/base/content/browser.js), so we
         // are guaranteed to call `onTabOpenListener` before the sync IPC message
