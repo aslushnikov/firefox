@@ -117,6 +117,8 @@ export class TargetRegistry {
     this._browserToTarget = new Map();
     this._browserIdToTarget = new Map();
 
+    this._browserIdToActor = new Map();
+
     this._proxiesWithClashingAuthCacheKeys = new Set();
     this._browserProxy = null;
 
@@ -233,6 +235,27 @@ export class TargetRegistry {
     for (const win of Services.wm.getEnumerator(null))
       onOpenWindow(win);
   }
+
+  onActorCreated(actor) {
+    // Only interested in main frames for now.
+    if (actor.browsingContext.parent)
+      return;
+
+    const browserId = actor.browsingContext.browserId;
+    this._browserIdToActor.set(browserId, actor);
+
+    const target = this._browserIdToTarget.get(browserId);
+    target?.setActor(actor);
+  }
+
+  onActorDestroyed(actor) {
+    const browserId = actor.browsingContext.browserId;
+    const target = this._browserIdToTarget.get(browserId);
+    target?.removeActor(actor);
+    if (this._browserIdToActor.get(browserId) === actor)
+      this._browserIdToActor.delete(browserId);
+  }
+
 
   // Firefox uses nsHttpAuthCache to cache authentication to the proxy.
   // If we're provided with a single proxy with a multiple different authentications, then
@@ -395,7 +418,6 @@ export class PageTarget {
     this._url = 'about:blank';
     this._openerId = opener ? opener.id() : undefined;
     this._actor = undefined;
-    this._actorSequenceNumber = 0;
     this._channel = new SimpleChannel(`browser::page[${this._targetId}]`, 'target-' + this._targetId);
     this._screencastId = undefined;
     this._dialogs = new Map();
@@ -422,7 +444,12 @@ export class PageTarget {
     this._disposed = false;
     browserContext.pages.add(this);
     this._registry._browserToTarget.set(this._linkedBrowser, this);
-    this._registry._browserIdToTarget.set(this._linkedBrowser.browsingContext.browserId, this);
+
+    const browserId = this._linkedBrowser.browsingContext.browserId;
+    this._registry._browserIdToTarget.set(browserId, this);
+    const actor = this._registry._browserIdToActor.get(browserId);
+    if (actor)
+      this.setActor(actor);
 
     this._registry.emit(TargetRegistry.Events.TargetCreated, this);
   }
@@ -453,10 +480,6 @@ export class PageTarget {
 
   frameIdToBrowsingContext(frameId) {
     return helper.collectAllBrowsingContexts(this._linkedBrowser.browsingContext).find(bc => helper.browsingContextToFrameId(bc) === frameId);
-  }
-
-  nextActorSequenceNumber() {
-    return ++this._actorSequenceNumber;
   }
 
   setActor(actor) {
