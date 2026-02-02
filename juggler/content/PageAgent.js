@@ -307,6 +307,9 @@ export class PageAgent {
   }
 
   _onNavigationCommitted(frame) {
+    if (frame.domWindow().document.isUncommittedInitialDocument)
+      return;
+
     this._browserPage.emit('pageNavigationCommitted', {
       frameId: frame.id(),
       navigationId: frame.lastCommittedNavigationId() || undefined,
