@@ -85,9 +85,16 @@ interface nsIWebBrowserChrome : nsISupports
     // Whether this window should use out-of-process cross-origin subframes.
     const unsigned long CHROME_FISSION_WINDOW         = 1 << 21;
 
+<<<<<<< HEAD
     // Whether this is a Document Picture-in-Picture window
     const unsigned long CHROME_DOCUMENT_PIP           = 1 << 22;
 
+||||||| parent of 840985a32e85 (chore(ff): bootstrap build #1511)
+=======
+    // Whether this window has "width" or "height" defined in features
+    const unsigned long JUGGLER_WINDOW_EXPLICIT_SIZE  = 0x00400000;
+
+>>>>>>> 840985a32e85 (chore(ff): bootstrap build #1511)
     // Prevents new window animations on MacOS and Windows. Currently
     // ignored for Linux.
     const unsigned long CHROME_SUPPRESS_ANIMATION     = 1 << 24;
