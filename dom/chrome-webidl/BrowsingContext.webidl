@@ -263,19 +263,15 @@ interface BrowsingContext {
   // Forced-colors simulation, for DevTools
   [SetterThrows] attribute ForcedColorsOverride forcedColorsOverride;
 
-<<<<<<< HEAD
   // Animation playbackRate multiplier, for Devtools
   [SetterThrows] attribute double animationsPlayBackRateMultiplier;
 
-||||||| parent of 840985a32e85 (chore(ff): bootstrap build #1511)
-=======
   // Reduced-Motion simulation, for DevTools.
   [SetterThrows] attribute PrefersReducedMotionOverride prefersReducedMotionOverride;
 
   // Contrast simulation, for DevTools.
   [SetterThrows] attribute PrefersContrastOverride prefersContrastOverride;
 
->>>>>>> 840985a32e85 (chore(ff): bootstrap build #1511)
   /**
    * A unique identifier for the browser element that is hosting this
    * BrowsingContext tree. Every BrowsingContext in the element's tree will

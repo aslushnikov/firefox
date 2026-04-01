@@ -1109,13 +1109,10 @@ class BrowsingContext : public nsILoadContext, public nsWrapperCache {
     return GetForcedColorsOverride();
   }
 
-<<<<<<< HEAD
   double AnimationsPlayBackRateMultiplier() const {
     return Top()->GetAnimationsPlayBackRateMultiplier();
   }
 
-||||||| parent of 840985a32e85 (chore(ff): bootstrap build #1511)
-=======
   dom::PrefersReducedMotionOverride PrefersReducedMotionOverride() const {
     return GetPrefersReducedMotionOverride();
   }
@@ -1124,7 +1121,6 @@ class BrowsingContext : public nsILoadContext, public nsWrapperCache {
     return GetPrefersContrastOverride();
   }
 
->>>>>>> 840985a32e85 (chore(ff): bootstrap build #1511)
   bool IsInBFCache() const;
 
   bool AllowJavascript() const { return GetAllowJavascript(); }
@@ -1336,16 +1332,12 @@ class BrowsingContext : public nsILoadContext, public nsWrapperCache {
   void DidSet(FieldIndex<IDX_ForcedColorsOverride>,
               dom::ForcedColorsOverride aOldValue);
 
-<<<<<<< HEAD
   void DidSet(FieldIndex<IDX_AnimationsPlayBackRateMultiplier>,
               double aOldValue);
 
-||||||| parent of 840985a32e85 (chore(ff): bootstrap build #1511)
-=======
   void DidSet(FieldIndex<IDX_PrefersContrastOverride>,
               dom::PrefersContrastOverride aOldValue);
 
->>>>>>> 840985a32e85 (chore(ff): bootstrap build #1511)
   template <typename Callback>
   void WalkPresContexts(Callback&&);
   void PresContextAffectingFieldChanged();

@@ -453,7 +453,6 @@ dictionary SynthesizeEventOptions {
   // Set this to true to ensure that the event is dispatched to this DOM window
   // or one of its children.
   boolean toWindow = false;
-<<<<<<< HEAD
   // Controls Event.isSynthesized value that helps identifying test related events.
   boolean isDOMEventSynthesized = true;
 };
@@ -464,16 +463,14 @@ dictionary SynthesizeMouseEventOptions : SynthesizeEventOptions {
   boolean ignoreRootScrollFrame = false;
   // Controls WidgetMouseEvent.mReason value.
   boolean isWidgetEventSynthesized = false;
+  // Playwright
+  boolean jugglerConvertToPointer = true;
 };
 
 // Mozilla-specific stuff
 dictionary SynthesizeTouchEventOptions : SynthesizeEventOptions {
   // If true, the event is synthesized as a pen input.
   boolean isPen = false;
-||||||| parent of 840985a32e85 (chore(ff): bootstrap build #1511)
-=======
-  boolean jugglerConvertToPointer = true;
->>>>>>> 840985a32e85 (chore(ff): bootstrap build #1511)
 };
 
 // Mozilla-specific stuff
