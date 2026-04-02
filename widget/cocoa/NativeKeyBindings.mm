@@ -547,6 +547,7 @@ void NativeKeyBindings::GetEditCommandsForTests(
           aCommands);
       break;
     case KEY_NAME_INDEX_ArrowLeft:
+<<<<<<< HEAD
       if (aEvent.IsControl()) {
         if (aEvent.IsShift() && !aEvent.IsAlt() && !aEvent.IsMeta()) {
           instance->AppendEditCommandsForSelector(
@@ -554,6 +555,18 @@ void NativeKeyBindings::GetEditCommandsForTests(
                                 (moveToLeftEndOfLineAndModifySelection:)),
               aCommands);
         }
+||||||| parent of 3fbbafdfa313 (chore(ff): bootstrap build #1512)
+      if (aEvent.IsAlt()) {
+=======
+      if (aEvent.IsAlt()) {
+        if (aEvent.IsMeta() || aEvent.IsControl())
+          break;
+        instance->AppendEditCommandsForSelector(
+            !aEvent.IsShift()
+                ? ToObjcSelectorPtr(@selector(moveWordLeft:))
+                : ToObjcSelectorPtr(@selector(moveWordLeftAndModifySelection:)),
+            aCommands);
+>>>>>>> 3fbbafdfa313 (chore(ff): bootstrap build #1512)
         break;
       }
       if (aEvent.IsMeta()) {
@@ -583,6 +596,7 @@ void NativeKeyBindings::GetEditCommandsForTests(
           aCommands);
       break;
     case KEY_NAME_INDEX_ArrowRight:
+<<<<<<< HEAD
       if (aEvent.IsControl()) {
         if (aEvent.IsShift() && !aEvent.IsAlt() && !aEvent.IsMeta()) {
           instance->AppendEditCommandsForSelector(
@@ -590,6 +604,18 @@ void NativeKeyBindings::GetEditCommandsForTests(
                                 (moveToRightEndOfLineAndModifySelection:)),
               aCommands);
         }
+||||||| parent of 3fbbafdfa313 (chore(ff): bootstrap build #1512)
+      if (aEvent.IsAlt()) {
+=======
+      if (aEvent.IsAlt()) {
+        if (aEvent.IsMeta() || aEvent.IsControl())
+          break;
+        instance->AppendEditCommandsForSelector(
+            !aEvent.IsShift()
+                ? ToObjcSelectorPtr(@selector(moveWordRight:))
+                : ToObjcSelectorPtr(@selector(moveWordRightAndModifySelection:)),
+            aCommands);
+>>>>>>> 3fbbafdfa313 (chore(ff): bootstrap build #1512)
         break;
       }
       if (aEvent.IsMeta()) {
@@ -620,6 +646,10 @@ void NativeKeyBindings::GetEditCommandsForTests(
       break;
     case KEY_NAME_INDEX_ArrowUp:
       if (aEvent.IsControl()) {
+        if (aEvent.IsMeta() || aEvent.IsAlt())
+          break;
+        instance->AppendEditCommandsForSelector(
+          ToObjcSelectorPtr(@selector(scrollPageUp:)), aCommands);
         break;
       }
       if (aEvent.IsMeta()) {
@@ -657,6 +687,10 @@ void NativeKeyBindings::GetEditCommandsForTests(
       break;
     case KEY_NAME_INDEX_ArrowDown:
       if (aEvent.IsControl()) {
+        if (aEvent.IsMeta() || aEvent.IsAlt())
+          break;
+        instance->AppendEditCommandsForSelector(
+          ToObjcSelectorPtr(@selector(scrollPageDown:)), aCommands);
         break;
       }
       if (aEvent.IsMeta()) {
