@@ -52,20 +52,10 @@ namespace webrtc {
 
 DesktopCaptureImpl* DesktopCaptureImpl::Create(int32_t aCaptureId,
                                                const char* aUniqueId,
-<<<<<<< HEAD
-                                               const CaptureDeviceType aType) {
-  return new webrtc::RefCountedObject<DesktopCaptureImpl>(aCaptureId, aUniqueId,
-                                                          aType);
-||||||| parent of 3fbbafdfa313 (chore(ff): bootstrap build #1512)
-                                               const CaptureDeviceType aType) {
-  return new webrtc::RefCountedObject<DesktopCaptureImpl>(aModuleId, aUniqueId,
-                                                          aType);
-=======
                                                const CaptureDeviceType aType,
                                                bool aCaptureCursor) {
-  return new webrtc::RefCountedObject<DesktopCaptureImpl>(aModuleId, aUniqueId,
+  return new webrtc::RefCountedObject<DesktopCaptureImpl>(aCaptureId, aUniqueId,
                                                           aType, aCaptureCursor);
->>>>>>> 3fbbafdfa313 (chore(ff): bootstrap build #1512)
 }
 
 static DesktopCaptureOptions CreateDesktopCaptureOptions() {
@@ -264,23 +254,11 @@ static std::unique_ptr<DesktopCapturer> CreateDesktopCapturerAndThread(
   return capturer;
 }
 
-<<<<<<< HEAD
 DesktopCaptureImpl::DesktopCaptureImpl(int32_t aCaptureId,
                                        const char* aUniqueId,
-                                       const CaptureDeviceType aType)
-    : mTrackingId(mozilla::TrackingId(CaptureEngineToTrackingSourceStr([&] {
-||||||| parent of 3fbbafdfa313 (chore(ff): bootstrap build #1512)
-DesktopCaptureImpl::DesktopCaptureImpl(const int32_t aId, const char* aUniqueId,
-                                       const CaptureDeviceType aType)
-    : mModuleId(aId),
-      mTrackingId(mozilla::TrackingId(CaptureEngineToTrackingSourceStr([&] {
-=======
-DesktopCaptureImpl::DesktopCaptureImpl(const int32_t aId, const char* aUniqueId,
                                        const CaptureDeviceType aType,
                                        bool aCaptureCursor)
-    : mModuleId(aId),
-      mTrackingId(mozilla::TrackingId(CaptureEngineToTrackingSourceStr([&] {
->>>>>>> 3fbbafdfa313 (chore(ff): bootstrap build #1512)
+    : mTrackingId(mozilla::TrackingId(CaptureEngineToTrackingSourceStr([&] {
                                         switch (aType) {
                                           case CaptureDeviceType::Screen:
                                             return CaptureEngine::ScreenEngine;
@@ -312,38 +290,6 @@ void DesktopCaptureImpl::RegisterCaptureDataCallback(
   *callback = aDataCallback;
 }
 
-<<<<<<< HEAD
-void DesktopCaptureImpl::DeRegisterCaptureDataCallback() {
-  auto callback = mCallback.Lock();
-  *callback = nullptr;
-||||||| parent of 3fbbafdfa313 (chore(ff): bootstrap build #1512)
-void DesktopCaptureImpl::DeRegisterCaptureDataCallback(
-    webrtc::VideoSinkInterface<VideoFrame>* aDataCallback) {
-  auto callbacks = mCallbacks.Lock();
-  auto it = callbacks->find(aDataCallback);
-  if (it != callbacks->end()) {
-    callbacks->erase(it);
-  }
-}
-
-int32_t DesktopCaptureImpl::StopCaptureIfAllClientsClose() {
-  {
-    auto callbacks = mCallbacks.Lock();
-    if (!callbacks->empty()) {
-      return 0;
-    }
-  }
-  return StopCapture();
-=======
-void DesktopCaptureImpl::DeRegisterCaptureDataCallback(
-    webrtc::VideoSinkInterface<VideoFrame>* aDataCallback) {
-  auto callbacks = mCallbacks.Lock();
-  auto it = callbacks->find(aDataCallback);
-  if (it != callbacks->end()) {
-    callbacks->erase(it);
-  }
-}
-
 void DesktopCaptureImpl::RegisterRawFrameCallback(RawFrameCallback* rawFrameCallback) {
   webrtc::CritScope lock(&mApiCs);
   _rawFrameCallbacks.insert(rawFrameCallback);
@@ -357,15 +303,9 @@ void DesktopCaptureImpl::DeRegisterRawFrameCallback(RawFrameCallback* rawFrameCa
   }
 }
 
-int32_t DesktopCaptureImpl::StopCaptureIfAllClientsClose() {
-  {
-    auto callbacks = mCallbacks.Lock();
-    if (!callbacks->empty()) {
-      return 0;
-    }
-  }
-  return StopCapture();
->>>>>>> 3fbbafdfa313 (chore(ff): bootstrap build #1512)
+void DesktopCaptureImpl::DeRegisterCaptureDataCallback() {
+  auto callback = mCallback.Lock();
+  *callback = nullptr;
 }
 
 int32_t DesktopCaptureImpl::SetCaptureRotation(VideoRotation aRotation) {

@@ -40,12 +40,9 @@ void HeadlessWindowCapturer::RegisterCaptureDataCallback(webrtc::VideoSinkInterf
 void HeadlessWindowCapturer::RegisterCaptureDataCallback(webrtc::RawVideoSinkInterface* dataCallback) {
 }
 
-void HeadlessWindowCapturer::DeRegisterCaptureDataCallback(webrtc::VideoSinkInterface<webrtc::VideoFrame>* dataCallback) {
+void HeadlessWindowCapturer::DeRegisterCaptureDataCallback() {
   webrtc::CritScope lock2(&_callBackCs);
-  auto it = _dataCallBacks.find(dataCallback);
-  if (it != _dataCallBacks.end()) {
-    _dataCallBacks.erase(it);
-  }
+  _dataCallBacks.clear();
 }
 
 void HeadlessWindowCapturer::RegisterRawFrameCallback(webrtc::RawFrameCallback* rawFrameCallback) {
@@ -65,14 +62,6 @@ void HeadlessWindowCapturer::NotifyFrameCaptured(const webrtc::VideoFrame& frame
   webrtc::CritScope lock2(&_callBackCs);
   for (auto dataCallBack : _dataCallBacks)
     dataCallBack->OnFrame(frame);
-}
-
-int32_t HeadlessWindowCapturer::StopCaptureIfAllClientsClose() {
-  if (_dataCallBacks.empty()) {
-    return StopCapture();
-  } else {
-    return 0;
-  }
 }
 
 int32_t HeadlessWindowCapturer::StartCapture(const webrtc::VideoCaptureCapability& capability) {
