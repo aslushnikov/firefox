@@ -273,6 +273,7 @@ bool Gecko_MediaFeatures_MatchesPlatform(StylePlatform aPlatform) {
 }
 
 bool Gecko_MediaFeatures_PrefersReducedMotion(const Document* aDocument) {
+<<<<<<< HEAD
   if (aDocument->ShouldResistFingerprinting(
           RFPTarget::CSSPrefersReducedMotion)) {
     return false;
@@ -292,6 +293,15 @@ bool Gecko_MediaFeatures_PrefersReducedMotion(const Document* aDocument) {
   }
 
   return LookAndFeel::GetInt(LookAndFeel::IntID::PrefersReducedMotion, 0) == 1;
+||||||| parent of 1fae0bf93d4e (conflicts)
+  if (aDocument->ShouldResistFingerprinting(
+          RFPTarget::CSSPrefersReducedMotion)) {
+    return false;
+  }
+  return LookAndFeel::GetInt(LookAndFeel::IntID::PrefersReducedMotion, 0) == 1;
+=======
+  return aDocument->PrefersReducedMotion();
+>>>>>>> 1fae0bf93d4e (conflicts)
 }
 
 bool Gecko_MediaFeatures_PrefersReducedTransparency(const Document* aDocument) {
@@ -321,6 +331,20 @@ bool Gecko_MediaFeatures_MacRTL(const Document* aDocument) {
 // as a signal.
 StylePrefersContrast Gecko_MediaFeatures_PrefersContrast(
     const Document* aDocument) {
+  if (auto* bc = aDocument->GetBrowsingContext()) {
+    switch (bc->Top()->PrefersContrastOverride()) {
+      case dom::PrefersContrastOverride::No_preference:
+        return StylePrefersContrast::NoPreference;
+      case dom::PrefersContrastOverride::Less:
+        return StylePrefersContrast::Less;
+      case dom::PrefersContrastOverride::More:
+        return StylePrefersContrast::More;
+      case dom::PrefersContrastOverride::Custom:
+        return StylePrefersContrast::Custom;
+    }
+  }
+  
+  
   if (aDocument->ShouldResistFingerprinting(RFPTarget::CSSPrefersContrast)) {
     return StylePrefersContrast::NoPreference;
   }

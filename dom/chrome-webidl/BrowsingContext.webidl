@@ -64,6 +64,7 @@ enum ForcedColorsOverride {
 };
 
 /**
+<<<<<<< HEAD
  * CSS prefers-reduced-motion values override.
  */
 enum PrefersReducedMotionOverride {
@@ -73,6 +74,29 @@ enum PrefersReducedMotionOverride {
 };
 
 /**
+||||||| parent of 1fae0bf93d4e (conflicts)
+=======
+ * CSS prefers-reduced-motion values.
+ */
+enum PrefersReducedMotionOverride {
+  "none",
+  "reduce",
+  "no-preference",
+};
+
+/**
+ * CSS prefers-contrast values.
+ */
+enum PrefersContrastOverride {
+  "none",
+  "no-preference",
+  "more",
+  "less",
+  "custom",
+};
+
+/**
+>>>>>>> 1fae0bf93d4e (conflicts)
  * Allowed overrides of platform/pref default behaviour for touch events.
  */
 enum TouchEventsOverride {
@@ -257,6 +281,12 @@ interface BrowsingContext {
 
   // Animation playbackRate multiplier, for Devtools
   [SetterThrows] attribute double animationsPlayBackRateMultiplier;
+
+  // Reduced-Motion simulation, for DevTools.
+  [SetterThrows] attribute PrefersReducedMotionOverride prefersReducedMotionOverride;
+
+  // Contrast simulation, for DevTools.
+  [SetterThrows] attribute PrefersContrastOverride prefersContrastOverride;
 
   /**
    * A unique identifier for the browser element that is hosting this
