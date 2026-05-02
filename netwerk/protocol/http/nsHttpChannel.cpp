@@ -8399,7 +8399,7 @@ bool nsHttpChannel::IsForcedOffline() {
     return true;
 
   RefPtr<mozilla::dom::BrowsingContext> wbc;
-  mLoadInfo->GetWorkerAssociatedBrowsingContext(getter_AddRefs(wbc));
+  mLoadInfo->GetAssociatedBrowsingContext(getter_AddRefs(wbc));
   if (wbc && wbc->Top()->GetForceOffline())
     return true;
 

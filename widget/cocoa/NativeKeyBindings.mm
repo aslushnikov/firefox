@@ -547,7 +547,6 @@ void NativeKeyBindings::GetEditCommandsForTests(
           aCommands);
       break;
     case KEY_NAME_INDEX_ArrowLeft:
-<<<<<<< HEAD
       if (aEvent.IsControl()) {
         if (aEvent.IsShift() && !aEvent.IsAlt() && !aEvent.IsMeta()) {
           instance->AppendEditCommandsForSelector(
@@ -555,18 +554,6 @@ void NativeKeyBindings::GetEditCommandsForTests(
                                 (moveToLeftEndOfLineAndModifySelection:)),
               aCommands);
         }
-||||||| parent of e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
-      if (aEvent.IsAlt()) {
-=======
-      if (aEvent.IsAlt()) {
-        if (aEvent.IsMeta() || aEvent.IsControl())
-          break;
-        instance->AppendEditCommandsForSelector(
-            !aEvent.IsShift()
-                ? ToObjcSelectorPtr(@selector(moveWordLeft:))
-                : ToObjcSelectorPtr(@selector(moveWordLeftAndModifySelection:)),
-            aCommands);
->>>>>>> e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
         break;
       }
       if (aEvent.IsMeta()) {
@@ -596,7 +583,6 @@ void NativeKeyBindings::GetEditCommandsForTests(
           aCommands);
       break;
     case KEY_NAME_INDEX_ArrowRight:
-<<<<<<< HEAD
       if (aEvent.IsControl()) {
         if (aEvent.IsShift() && !aEvent.IsAlt() && !aEvent.IsMeta()) {
           instance->AppendEditCommandsForSelector(
@@ -604,18 +590,6 @@ void NativeKeyBindings::GetEditCommandsForTests(
                                 (moveToRightEndOfLineAndModifySelection:)),
               aCommands);
         }
-||||||| parent of e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
-      if (aEvent.IsAlt()) {
-=======
-      if (aEvent.IsAlt()) {
-        if (aEvent.IsMeta() || aEvent.IsControl())
-          break;
-        instance->AppendEditCommandsForSelector(
-            !aEvent.IsShift()
-                ? ToObjcSelectorPtr(@selector(moveWordRight:))
-                : ToObjcSelectorPtr(@selector(moveWordRightAndModifySelection:)),
-            aCommands);
->>>>>>> e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
         break;
       }
       if (aEvent.IsMeta()) {

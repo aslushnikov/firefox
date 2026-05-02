@@ -14,12 +14,8 @@
 #include "mozilla/WeakPtr.h"
 #include "mozilla/dom/BrowsingContext.h"
 #include "mozilla/dom/NavigationBinding.h"
-<<<<<<< HEAD
 #include "mozilla/dom/SessionHistoryEntry.h"
-||||||| parent of e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
-=======
 #include "mozilla/dom/Element.h"
->>>>>>> e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
 #include "mozilla/dom/WindowProxyHolder.h"
 #include "nsCOMPtr.h"
 #include "nsCharsetSource.h"

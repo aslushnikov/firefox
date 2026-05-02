@@ -74,31 +74,15 @@ class VideoCaptureModuleEx : public VideoCaptureModule {
 // Reuses the video engine pipeline for screen sharing.
 // As with video, DesktopCaptureImpl is a proxy for screen sharing
 // and follows the video pipeline design
-<<<<<<< HEAD
 class DesktopCaptureImpl : public mozilla::DesktopCaptureInterface,
                            public DesktopCapturer::Callback,
-                           public VideoCaptureModule {
-||||||| parent of e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
-class DesktopCaptureImpl : public DesktopCapturer::Callback,
-                           public VideoCaptureModule {
-=======
-class DesktopCaptureImpl : public DesktopCapturer::Callback,
                            public VideoCaptureModuleEx {
->>>>>>> e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
  public:
   /* Create a screen capture modules object
    */
   static DesktopCaptureImpl* Create(
-<<<<<<< HEAD
       int32_t aCaptureId, const char* aUniqueId,
-      const mozilla::camera::CaptureDeviceType aType);
-||||||| parent of e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
-      const int32_t aModuleId, const char* aUniqueId,
-      const mozilla::camera::CaptureDeviceType aType);
-=======
-      const int32_t aModuleId, const char* aUniqueId,
       const mozilla::camera::CaptureDeviceType aType, bool aCaptureCursor = true);
->>>>>>> e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
 
   [[nodiscard]] static std::shared_ptr<VideoCaptureModule::DeviceInfo>
   CreateDeviceInfo(const mozilla::camera::CaptureDeviceType aType);
@@ -108,19 +92,9 @@ class DesktopCaptureImpl : public DesktopCapturer::Callback,
       webrtc::VideoSinkInterface<VideoFrame>* aCallback) override;
   void RegisterCaptureDataCallback(
       RawVideoSinkInterface* dataCallback) override {}
-<<<<<<< HEAD
   void DeRegisterCaptureDataCallback() override;
-||||||| parent of e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
-  void DeRegisterCaptureDataCallback(
-      webrtc::VideoSinkInterface<VideoFrame>* aCallback) override;
-  int32_t StopCaptureIfAllClientsClose() override;
-=======
-  void DeRegisterCaptureDataCallback(
-      webrtc::VideoSinkInterface<VideoFrame>* aCallback) override;
-  int32_t StopCaptureIfAllClientsClose() override;
   void RegisterRawFrameCallback(RawFrameCallback* rawFrameCallback) override;
   void DeRegisterRawFrameCallback(RawFrameCallback* rawFrameCallback) override;
->>>>>>> e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
 
   int32_t SetCaptureRotation(VideoRotation aRotation) override;
   bool SetApplyRotation(bool aEnable) override;
@@ -142,17 +116,9 @@ class DesktopCaptureImpl : public DesktopCapturer::Callback,
   const mozilla::camera::CaptureDeviceType mDeviceType;
 
  protected:
-<<<<<<< HEAD
   DesktopCaptureImpl(const int32_t aCaptureId, const char* aUniqueId,
-                     const mozilla::camera::CaptureDeviceType aType);
-||||||| parent of e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
-  DesktopCaptureImpl(const int32_t aId, const char* aUniqueId,
-                     const mozilla::camera::CaptureDeviceType aType);
-=======
-  DesktopCaptureImpl(const int32_t aId, const char* aUniqueId,
                      const mozilla::camera::CaptureDeviceType aType,
                      bool aCaptureCusor);
->>>>>>> e3fbc9cc90e9 (chore(ff): bootstrap build #1518)
   virtual ~DesktopCaptureImpl();
 
  private:
