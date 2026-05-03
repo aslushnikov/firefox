@@ -106,7 +106,10 @@ class NetworkRequest {
     this.httpChannel = httpChannel;
 
     const loadInfo = this.httpChannel.loadInfo;
-    const browsingContext = loadInfo?.frameBrowsingContext || loadInfo?.workerAssociatedBrowsingContext || loadInfo?.browsingContext;
+    const browsingContext = loadInfo?.frameBrowsingContext
+      || loadInfo?.associatedBrowsingContext
+      || loadInfo?.workerAssociatedBrowsingContext
+      || loadInfo?.browsingContext;
 
     this._frameId = helper.browsingContextToFrameId(browsingContext);
 
