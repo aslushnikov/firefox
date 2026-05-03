@@ -276,7 +276,10 @@ DesktopCaptureImpl::DesktopCaptureImpl(int32_t aCaptureId,
       capture_cursor_(aCaptureCursor),
       mControlThread(mozilla::GetCurrentSerialEventTarget()),
       mNextFrameMinimumTime(Timestamp::Zero()),
-      mCallback("DesktopCaptureImpl::mCallback"),
+      // Playwright: make sure mCallback is initialized with nullptr instead of
+      // a random garbage; we'll use this to assert existance of data callback.
+      mCallback(static_cast<webrtc::VideoSinkInterface<VideoFrame>*>(nullptr),
+          "DesktopCaptureImpl::mCallback"),
       mBufferPool(false, 2) {}
 
 DesktopCaptureImpl::~DesktopCaptureImpl() {
@@ -467,6 +470,14 @@ void DesktopCaptureImpl::OnCaptureResult(DesktopCapturer::Result aResult,
     webrtc::CritScope cs(&mApiCs);
     for (auto rawFrameCallback : _rawFrameCallbacks) {
       rawFrameCallback->OnRawFrame(videoFrame, aFrame->stride(), frameInfo);
+    }
+  }
+
+  // Playwright: fast-return if only raw callback is registered.
+  {
+    auto callback = mCallback.Lock();
+    if (!*callback) {
+      return;
     }
   }
 
