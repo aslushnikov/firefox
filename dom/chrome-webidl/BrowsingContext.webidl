@@ -64,19 +64,7 @@ enum ForcedColorsOverride {
 };
 
 /**
-<<<<<<< HEAD
  * CSS prefers-reduced-motion values override.
- */
-enum PrefersReducedMotionOverride {
-  "none",
-  "reduce",
-  "no-preference",
-};
-
-/**
-||||||| parent of 1fae0bf93d4e (conflicts)
-=======
- * CSS prefers-reduced-motion values.
  */
 enum PrefersReducedMotionOverride {
   "none",
@@ -96,7 +84,6 @@ enum PrefersContrastOverride {
 };
 
 /**
->>>>>>> 1fae0bf93d4e (conflicts)
  * Allowed overrides of platform/pref default behaviour for touch events.
  */
 enum TouchEventsOverride {

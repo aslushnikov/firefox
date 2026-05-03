@@ -4922,20 +4922,9 @@ nsresult nsHttpChannel::OpenCacheEntryInternal(bool isHttps) {
   uint32_t cacheEntryOpenFlags;
   bool offline = gIOService->IsOffline();
 
-<<<<<<< HEAD
   RefPtr<mozilla::dom::BrowsingContext> bc;
   mLoadInfo->GetBrowsingContext(getter_AddRefs(bc));
 
-||||||| parent of 1fae0bf93d4e (conflicts)
-  RefPtr<mozilla::dom::BrowsingContext> bc;
-  mLoadInfo->GetBrowsingContext(getter_AddRefs(bc));
-
-  bool maybeRCWN = false;
-
-=======
-  bool maybeRCWN = false;
-
->>>>>>> 1fae0bf93d4e (conflicts)
   nsAutoCString cacheControlRequestHeader;
   (void)mRequestHead.GetHeader(nsHttp::Cache_Control,
                                cacheControlRequestHeader);
