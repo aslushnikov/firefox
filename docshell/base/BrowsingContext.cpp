@@ -119,10 +119,6 @@ struct ParamTraits<mozilla::dom::PrefersColorSchemeOverride>
     : public mozilla::dom::WebIDLEnumSerializer<mozilla::dom::PrefersColorSchemeOverride> {};
 
 template <>
-struct ParamTraits<mozilla::dom::PrefersReducedMotionOverride>
-    : public mozilla::dom::WebIDLEnumSerializer<mozilla::dom::PrefersReducedMotionOverride> {};
-
-template <>
 struct ParamTraits<mozilla::dom::PrefersContrastOverride>
     : public mozilla::dom::WebIDLEnumSerializer<mozilla::dom::PrefersContrastOverride> {};
 
@@ -3572,23 +3568,6 @@ void BrowsingContext::DidSet(FieldIndex<IDX_PrefersContrastOverride>,
     return;
   }
   PresContextAffectingFieldChanged();
-}
-
-void BrowsingContext::DidSet(FieldIndex<IDX_PrefersReducedMotionOverride>,
-                             dom::PrefersReducedMotionOverride aOldValue) {
-  MOZ_ASSERT(IsTop());
-  if (PrefersReducedMotionOverride() == aOldValue) {
-    return;
-  }
-  PreOrderWalk([&](BrowsingContext* aContext) {
-    if (nsIDocShell* shell = aContext->GetDocShell()) {
-      if (nsPresContext* pc = shell->GetPresContext()) {
-        pc->MediaFeatureValuesChanged(
-            {MediaFeatureChangeReason::SystemMetricsChange},
-            MediaFeatureChangePropagation::JustThisDocument);
-      }
-    }
-  });
 }
 
 void BrowsingContext::DidSet(FieldIndex<IDX_MediumOverride>,

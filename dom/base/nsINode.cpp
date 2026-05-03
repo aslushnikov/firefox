@@ -1540,8 +1540,8 @@ void nsINode::ScrollRectIntoViewIfNeeded(int32_t x, int32_t y,
   }
   presShell->ScrollFrameIntoView(
       primaryFrame, Some(rect),
-      ScrollAxis(WhereToScroll::Center, WhenToScroll::IfNotFullyVisible),
-      ScrollAxis(WhereToScroll::Center, WhenToScroll::IfNotFullyVisible),
+      AxisScrollParams(WhereToScroll::Center, WhenToScroll::IfNotFullyVisible),
+      AxisScrollParams(WhereToScroll::Center, WhenToScroll::IfNotFullyVisible),
       ScrollFlags::ScrollOverflowHidden);
   // If a _visual_ scroll update is pending, cancel it; otherwise, it will
   // clobber next scroll (e.g. subsequent window.scrollTo(0, 0) wlll break).

@@ -269,9 +269,6 @@ interface BrowsingContext {
   // Animation playbackRate multiplier, for Devtools
   [SetterThrows] attribute double animationsPlayBackRateMultiplier;
 
-  // Reduced-Motion simulation, for DevTools.
-  [SetterThrows] attribute PrefersReducedMotionOverride prefersReducedMotionOverride;
-
   // Contrast simulation, for DevTools.
   [SetterThrows] attribute PrefersContrastOverride prefersContrastOverride;
 

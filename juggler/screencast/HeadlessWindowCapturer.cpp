@@ -4,6 +4,8 @@
 
 #include "HeadlessWindowCapturer.h"
 
+#include <bit>
+
 #include "api/video/i420_buffer.h"
 #include "HeadlessWidget.h"
 #include "libyuv.h"
@@ -79,11 +81,11 @@ int32_t HeadlessWindowCapturer::StartCapture(const webrtc::VideoCaptureCapabilit
     webrtc::VideoCaptureCapability frameInfo;
     frameInfo.width = dataSurface->GetSize().width;
     frameInfo.height = dataSurface->GetSize().height;
-#if MOZ_LITTLE_ENDIAN()
-    frameInfo.videoType = VideoType::kARGB;
-#else
-    frameInfo.videoType = VideoType::kBGRA;
-#endif
+    if constexpr (std::endian::native == std::endian::little) {
+      frameInfo.videoType = VideoType::kARGB;
+    } else {
+      frameInfo.videoType = VideoType::kBGRA;
+    }
 
     {
       webrtc::CritScope lock2(&_callBackCs);
@@ -104,16 +106,19 @@ int32_t HeadlessWindowCapturer::StartCapture(const webrtc::VideoCaptureCapabilit
       return;
     }
 
-#if MOZ_LITTLE_ENDIAN()
-    const int conversionResult = libyuv::ARGBToI420(
-#else
-    const int conversionResult = libyuv::BGRAToI420(
-#endif
-        map.GetData(), map.GetStride(),
-        buffer->MutableDataY(), buffer->StrideY(),
-        buffer->MutableDataU(), buffer->StrideU(),
-        buffer->MutableDataV(), buffer->StrideV(),
-        width, height);
+    const int conversionResult = std::endian::native == std::endian::little ? libyuv::ARGBToI420(
+      map.GetData(), map.GetStride(),
+      buffer->MutableDataY(), buffer->StrideY(),
+      buffer->MutableDataU(), buffer->StrideU(),
+      buffer->MutableDataV(), buffer->StrideV(),
+      width, height
+    ) : libyuv::BGRAToI420(
+      map.GetData(), map.GetStride(),
+      buffer->MutableDataY(), buffer->StrideY(),
+      buffer->MutableDataU(), buffer->StrideU(),
+      buffer->MutableDataV(), buffer->StrideV(),
+      width, height
+    );
     if (conversionResult != 0) {
       fprintf(stderr, "Failed to convert capture frame to I420: %d\n", conversionResult);
       return;
