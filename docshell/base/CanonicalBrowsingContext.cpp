@@ -279,7 +279,7 @@ void CanonicalBrowsingContext::ReplacedBy(
   txn.SetInnerSizeSpoofedForRFP(GetInnerSizeSpoofedForRFP());
   txn.SetIPAddressSpace(GetIPAddressSpace());
   txn.SetParentalControlsEnabled(GetParentalControlsEnabled());
-  //txn.SetPrefersReducedMotionOverride(GetPrefersReducedMotionOverride());
+  txn.SetPrefersReducedMotionOverride(GetPrefersReducedMotionOverride());
   txn.SetForcedColorsOverride(GetForcedColorsOverride());
 
   if (!GetLanguageOverride().IsEmpty()) {
