@@ -211,11 +211,11 @@ struct EmbedderColorSchemes {
   FIELD(HasScreenAreaOverride, bool)                                          \
   /* ScreenOrientation-related APIs */                                        \
   FIELD(CurrentOrientationAngle, float)                                       \
-  FIELD(CurrentOrientationType, mozilla::dom::OrientationType)                \
+  FIELD(CurrentOrientationType, dom::OrientationType)                \
   FIELD(OrientationLock, mozilla::hal::ScreenOrientation)                     \
   FIELD(HasOrientationOverride, bool)                                         \
   FIELD(UserAgentOverride, nsString)                                          \
-  FIELD(TouchEventsOverrideInternal, mozilla::dom::TouchEventsOverride)       \
+  FIELD(TouchEventsOverrideInternal, dom::TouchEventsOverride)       \
   FIELD(EmbedderElementType, Maybe<nsString>)                                 \
   FIELD(MessageManagerGroup, nsString)                                        \
   FIELD(MaxTouchPointsOverride, uint8_t)                                      \
@@ -258,6 +258,9 @@ struct EmbedderColorSchemes {
    * <browser> embedder element. */                                           \
   FIELD(EmbedderColorSchemes, EmbedderColorSchemes)                           \
   FIELD(DisplayMode, dom::DisplayMode)                                        \
+  /* playwright addition */                                                   \
+  FIELD(PrefersReducedMotionOverride, dom::PrefersReducedMotionOverride)      \
+  FIELD(PrefersContrastOverride, dom::PrefersContrastOverride)                \
   /* The number of entries added to the session history because of this       \
    * browsing context. */                                                     \
   FIELD(HistoryEntryCount, uint32_t)                                          \
@@ -1117,6 +1120,14 @@ class BrowsingContext : public nsILoadContext, public nsWrapperCache {
     return Top()->GetAnimationsPlayBackRateMultiplier();
   }
 
+  dom::PrefersReducedMotionOverride PrefersReducedMotionOverride() const {
+    return GetPrefersReducedMotionOverride();
+  }
+
+  dom::PrefersContrastOverride PrefersContrastOverride() const {
+    return GetPrefersContrastOverride();
+  }
+
   bool IsInBFCache() const;
   bool IsEnteringBFCache() const { return mIsEnteringBFCache; }
   void DeactivateDocuments();
@@ -1319,6 +1330,11 @@ class BrowsingContext : public nsILoadContext, public nsWrapperCache {
     return IsTop();
   }
 
+  bool CanSet(FieldIndex<IDX_PrefersContrastOverride>,
+              dom::PrefersContrastOverride, ContentParent*) {
+    return IsTop();
+  }
+
   bool CanSet(FieldIndex<IDX_ForcedColorsOverride>, dom::ForcedColorsOverride,
               ContentParent*) {
     return IsTop();
@@ -1347,6 +1363,9 @@ class BrowsingContext : public nsILoadContext, public nsWrapperCache {
   void DidSet(FieldIndex<IDX_AnimationsPlayBackRateMultiplier>,
               double aOldValue);
 
+  void DidSet(FieldIndex<IDX_PrefersContrastOverride>,
+              dom::PrefersContrastOverride aOldValue);
+
   template <typename Callback>
   void WalkPresContexts(Callback&&);
   void PresContextAffectingFieldChanged();
@@ -1354,6 +1373,15 @@ class BrowsingContext : public nsILoadContext, public nsWrapperCache {
   void DidSet(FieldIndex<IDX_LanguageOverride>, nsCString&& aOldValue);
 
   void DidSet(FieldIndex<IDX_TimezoneOverride>, nsString&& aOldValue);
+
+  bool CanSet(FieldIndex<IDX_PrefersReducedMotionOverride>,
+              dom::PrefersReducedMotionOverride, ContentParent*) {
+    return IsTop();
+  }
+
+  void DidSet(FieldIndex<IDX_PrefersReducedMotionOverride>,
+              dom::PrefersReducedMotionOverride aOldValue);
+
 
   void DidSet(FieldIndex<IDX_MediumOverride>, nsString&& aOldValue);
 
