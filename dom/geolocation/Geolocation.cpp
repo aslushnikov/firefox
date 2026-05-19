@@ -402,7 +402,6 @@ nsGeolocationRequest::Allow(JS::Handle<JS::Value> aChoices) {
     return NS_OK;
   }
 
-<<<<<<< HEAD
   auto onSystemPermissionResult =
       [self = RefPtr{this}](GeolocationPermissionStatus
                                 aResult) MOZ_CAN_RUN_SCRIPT_BOUNDARY_LAMBDA {
@@ -414,15 +413,9 @@ nsGeolocationRequest::Allow(JS::Handle<JS::Value> aChoices) {
         self->Cancel();
       };
 
-  if (mBehavior != SystemGeolocationPermissionBehavior::NoPrompt) {
-||||||| parent of cfb9f3d4fee7 (chore(ff-beta): bootstrap build #1516)
-  if (mBehavior != SystemGeolocationPermissionBehavior::NoPrompt) {
-=======
   RefPtr<nsGeolocationService> gs = nsGeolocationService::GetGeolocationService(
       mLocator->GetBrowsingContext());
-
   if (mBehavior != SystemGeolocationPermissionBehavior::NoPrompt && !gs->IsOverride()) {
->>>>>>> cfb9f3d4fee7 (chore(ff-beta): bootstrap build #1516)
     // Asynchronously present the system dialog or open system preferences
     // (RequestGeolocationPermissionFromUser will know which to do), and wait
     // for the permission to change or the request to be canceled.  If the

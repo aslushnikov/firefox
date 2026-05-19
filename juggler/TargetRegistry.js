@@ -456,7 +456,7 @@ export class PageTarget {
   }
 
   async activateAndRun(callback = () => {}, { muteNotificationsPopup = false } = {}) {
-    const ownerWindow = this._tab.linkedBrowser.ownerGlobal;
+    const ownerWindow = this._tab.linkedBrowser.documentGlobal;
     const tabBrowser = ownerWindow.gBrowser;
     // Serialize all tab-switching commands per tabbed browser
     // to disallow concurrent tab switching.
@@ -787,7 +787,7 @@ export class PageTarget {
     if (width < 10 || width > 10000 || height < 10 || height > 10000)
       throw new Error("Invalid size");
 
-    const docShell = this._gBrowser.ownerGlobal.docShell;
+    const docShell = this._gBrowser.documentGlobal.docShell;
     // Exclude address bar and navigation control from the video.
     const rect = this.linkedBrowser().getBoundingClientRect();
     const devicePixelRatio = this._window.devicePixelRatio;
