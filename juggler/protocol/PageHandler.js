@@ -227,8 +227,8 @@ export class PageHandler {
     });
   }
 
-  async ['Page.setViewportSize']({viewportSize, deviceScaleFactor}) {
-    await this._pageTarget.setViewportSize(viewportSize === null ? undefined : viewportSize, deviceScaleFactor);
+  async ['Page.setViewportSize']({viewportSize, deviceScaleFactor, screenSize, isMobile}) {
+    await this._pageTarget.setViewportSize(viewportSize === null ? undefined : viewportSize, deviceScaleFactor, screenSize, isMobile);
   }
 
   async ['Page.setZoom']({zoom}) {

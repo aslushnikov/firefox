@@ -416,6 +416,8 @@ export class PageTarget {
     this._browserContext = browserContext;
     this._viewportSize = undefined;
     this._deviceScaleFactor = undefined;
+    this._screenSize = undefined;
+    this._isMobile = undefined;
     this._zoom = 1;
     this._initialDPPX = this._linkedBrowser.browsingContext.overrideDPPX;
     this._url = 'about:blank';
@@ -531,6 +533,7 @@ export class PageTarget {
     this.updateLanguageOverride(browsingContext);
     this.updatePlatform(browsingContext);
     this.updateDPPXOverride(browsingContext);
+    this.updateScreenEmulation(browsingContext);
     this.updateZoom(browsingContext);
     this.updateEmulatedMedia(browsingContext);
     this.updateColorSchemeOverride(browsingContext);
@@ -585,6 +588,32 @@ export class PageTarget {
     browsingContext.overrideDPPX = dppx;
   }
 
+  updateScreenEmulation(browsingContext = undefined) {
+    browsingContext ||= this._linkedBrowser.browsingContext;
+    const screenSize = this._screenSize || this._browserContext.screenSize;
+    const isMobile = this._isMobile ?? this._browserContext.isMobile;
+
+    // `isRDMPane` is a "mobile mode": viewport media queries, touch/pointer
+    // support, viewport media queries.
+    browsingContext.inRDMPane = !!isMobile;
+
+    // Set window.screen.width and window.screen.height
+    if (screenSize) {
+      browsingContext.setScreenAreaOverride(screenSize.width, screenSize.height);
+    } else {
+      browsingContext.resetScreenAreaOverride();
+    }
+
+    // Derive the orientation from the emulated screen size and keep it in sync
+    // with the screen area override.
+    if (screenSize && isMobile) {
+      const isPortrait = screenSize.height >= screenSize.width;
+      browsingContext.setOrientationOverride(isPortrait ? 'portrait-primary' : 'landscape-primary', isPortrait ? 0 : 90);
+    } else {
+      browsingContext.resetOrientationOverride();
+    }
+  }
+
   async updateZoom(browsingContext = undefined) {
     browsingContext ||= this._linkedBrowser.browsingContext;
     // Update dpr first, and then UI zoom.
@@ -614,6 +643,7 @@ export class PageTarget {
   async updateViewportSize() {
     await waitForWindowReady(this._window);
     this.updateDPPXOverride();
+    this.updateScreenEmulation();
 
     // Viewport size is defined by three arguments:
     // 1. default size. Could be explicit if set as part of `window.open` call, e.g.
@@ -633,7 +663,6 @@ export class PageTarget {
       this._linkedBrowser.closest('.browserStack').style.setProperty('overflow', 'auto');
       this._linkedBrowser.closest('.browserStack').style.setProperty('contain', 'size');
       this._linkedBrowser.closest('.browserStack').style.setProperty('scrollbar-width', 'none');
-      this._linkedBrowser.browsingContext.inRDMPane = true;
 
       const stackRect = this._linkedBrowser.closest('.browserStack').getBoundingClientRect();
       const toolbarTop = stackRect.y;
@@ -647,7 +676,6 @@ export class PageTarget {
       this._linkedBrowser.closest('.browserStack').style.removeProperty('overflow');
       this._linkedBrowser.closest('.browserStack').style.removeProperty('contain');
       this._linkedBrowser.closest('.browserStack').style.removeProperty('scrollbar-width');
-      this._linkedBrowser.browsingContext.inRDMPane = false;
 
       const actualSize = this._linkedBrowser.getBoundingClientRect();
       await this._channel.connect('').send('awaitViewportDimensions', {
@@ -709,9 +737,11 @@ export class PageTarget {
     await this._channel.connect('').send('setInterceptFileChooserDialog', enabled).catch(e => {});
   }
 
-  async setViewportSize(viewportSize, deviceScaleFactor) {
+  async setViewportSize(viewportSize, deviceScaleFactor, screenSize, isMobile) {
     this._viewportSize = viewportSize;
     this._deviceScaleFactor = deviceScaleFactor;
+    this._screenSize = screenSize;
+    this._isMobile = isMobile;
     await this.updateViewportSize();
   }
 
@@ -922,6 +952,8 @@ class BrowserContext {
     this.downloadOptions = undefined;
     this.defaultViewportSize = undefined;
     this.deviceScaleFactor = undefined;
+    this.screenSize = undefined;
+    this.isMobile = undefined;
     this.defaultUserAgent = null;
     this.timezoneOverride = undefined;
     this.languageOverride = undefined;
@@ -1072,6 +1104,8 @@ class BrowserContext {
   async setDefaultViewport(viewport) {
     this.defaultViewportSize = viewport ? viewport.viewportSize : undefined;
     this.deviceScaleFactor = viewport ? viewport.deviceScaleFactor : undefined;
+    this.screenSize = viewport ? viewport.screenSize : undefined;
+    this.isMobile = viewport ? viewport.isMobile : undefined;
     await Promise.all(Array.from(this.pages).map(page => page.updateViewportSize()));
   }
 

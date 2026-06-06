@@ -77,6 +77,8 @@ pageTypes.Size = {
 pageTypes.Viewport = {
   viewportSize: pageTypes.Size,
   deviceScaleFactor: t.Optional(t.Number),
+  screenSize: t.Optional(pageTypes.Size),
+  isMobile: t.Optional(t.Boolean),
 };
 
 pageTypes.DOMQuad = {
@@ -757,6 +759,8 @@ const Page = {
       params: {
         viewportSize: t.Nullable(pageTypes.Size),
         deviceScaleFactor: t.Optional(t.Number),
+        screenSize: t.Optional(pageTypes.Size),
+        isMobile: t.Optional(t.Boolean),
       },
     },
     'setZoom': {
