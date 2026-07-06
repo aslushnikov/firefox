@@ -112,19 +112,11 @@ export var Utils = {
    */
   log,
 
-<<<<<<< HEAD
   get shouldSkipRemoteActivity() {
-    if (
-||||||| parent of 0c00dbe12ac9 (chore(ff-beta): bootstrap build #beta1528)
-  get shouldSkipRemoteActivityDueToTests() {
-    return (
-=======
-  get shouldSkipRemoteActivityDueToTests() {
     // Playwright does not set Cu.isInAutomation, hence we just return true
     // here in order to disable the remote activity.
     return true;
-    return (
->>>>>>> 0c00dbe12ac9 (chore(ff-beta): bootstrap build #beta1528)
+    if (
       (lazy.isRunningTests || Cu.isInAutomation) &&
       this.SERVER_URL == "data:,#remote-settings-dummy/v1"
     ) {
