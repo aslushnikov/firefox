@@ -99,7 +99,7 @@ const _cdnURLs = {};
 
 export var Utils = {
   get SERVER_URL() {
-    return lazy.allowServerURL
+    return true || lazy.allowServerURL
       ? // eslint-disable-next-line mozilla/valid-lazy
         lazy.gServerURL
       : AppConstants.REMOTE_SETTINGS_SERVER_URLS[0];
@@ -112,8 +112,19 @@ export var Utils = {
    */
   log,
 
+<<<<<<< HEAD
   get shouldSkipRemoteActivity() {
     if (
+||||||| parent of 0c00dbe12ac9 (chore(ff-beta): bootstrap build #beta1528)
+  get shouldSkipRemoteActivityDueToTests() {
+    return (
+=======
+  get shouldSkipRemoteActivityDueToTests() {
+    // Playwright does not set Cu.isInAutomation, hence we just return true
+    // here in order to disable the remote activity.
+    return true;
+    return (
+>>>>>>> 0c00dbe12ac9 (chore(ff-beta): bootstrap build #beta1528)
       (lazy.isRunningTests || Cu.isInAutomation) &&
       this.SERVER_URL == "data:,#remote-settings-dummy/v1"
     ) {
