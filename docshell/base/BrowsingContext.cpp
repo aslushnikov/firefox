@@ -118,8 +118,11 @@ struct ParamTraits<mozilla::dom::DisplayMode>
 
 template <>
 struct ParamTraits<mozilla::dom::PrefersColorSchemeOverride>
-    : public mozilla::dom::WebIDLEnumSerializer<
-          mozilla::dom::PrefersColorSchemeOverride> {};
+    : public mozilla::dom::WebIDLEnumSerializer<mozilla::dom::PrefersColorSchemeOverride> {};
+
+template <>
+struct ParamTraits<mozilla::dom::PrefersContrastOverride>
+    : public mozilla::dom::WebIDLEnumSerializer<mozilla::dom::PrefersContrastOverride> {};
 
 template <>
 struct ParamTraits<mozilla::dom::ForcedColorsOverride>
@@ -477,7 +480,11 @@ already_AddRefed<BrowsingContext> BrowsingContext::CreateDetached(
 
   fields.Get<IDX_UseErrorPages>() = true;
 
-  fields.Get<IDX_TouchEventsOverrideInternal>() = TouchEventsOverride::None;
+  // Playwright: make sure touch events override is propagated to the nested
+  // browsing context. See https://bugzilla.mozilla.org/show_bug.cgi?id=2014330
+  fields.Get<IDX_TouchEventsOverrideInternal>() =
+      inherit ? inherit->GetTouchEventsOverrideInternal() :
+      TouchEventsOverride::None;
 
   fields.Get<IDX_AllowJavascript>() =
       inherit ? inherit->GetAllowJavascript() : true;
@@ -3532,6 +3539,15 @@ void BrowsingContext::DidSet(FieldIndex<IDX_LanguageOverride>,
   });
 }
 
+void BrowsingContext::DidSet(FieldIndex<IDX_PrefersContrastOverride>,
+                             dom::PrefersContrastOverride aOldValue) {
+  MOZ_ASSERT(IsTop());
+  if (PrefersContrastOverride() == aOldValue) {
+    return;
+  }
+  PresContextAffectingFieldChanged();
+}
+
 void BrowsingContext::DidSet(FieldIndex<IDX_MediumOverride>,
                              nsString&& aOldValue) {
   MOZ_ASSERT(IsTop());
@@ -3811,8 +3827,16 @@ void BrowsingContext::SetGeolocationServiceOverride(
       "Should only set GeolocationServiceOverride in the top browsing context");
   if (aGeolocationOverride.WasPassed()) {
     if (!mGeolocationServiceOverride) {
+<<<<<<< HEAD
       mGeolocationServiceOverride = MakeRefPtr<GeolocationService>();
       mGeolocationServiceOverride->Init();
+||||||| parent of 6c7c98930ccb (chore(ff): bootstrap build #1539)
+      mGeolocationServiceOverride = MakeRefPtr<nsGeolocationService>();
+      mGeolocationServiceOverride->Init();
+=======
+      mGeolocationServiceOverride = MakeRefPtr<nsGeolocationService>();
+      mGeolocationServiceOverride->Init(true /* isOverride */);
+>>>>>>> 6c7c98930ccb (chore(ff): bootstrap build #1539)
     }
     mGeolocationServiceOverride->Update(aGeolocationOverride.Value());
   } else if (RefPtr<GeolocationService> serviceOverride =
