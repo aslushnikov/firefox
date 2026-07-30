@@ -2,14 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-<<<<<<< HEAD
-||||||| parent of 6c7c98930ccb (chore(ff): bootstrap build #1539)
-#include "mozilla/widget/PlatformWidgetTypes.h"
-=======
 #include "mozilla/gfx/2D.h"
 #include "mozilla/layers/CompositorThread.h"
-#include "mozilla/widget/PlatformWidgetTypes.h"
->>>>>>> 6c7c98930ccb (chore(ff): bootstrap build #1539)
 #include "HeadlessCompositorWidget.h"
 
 #include "VsyncDispatcher.h"

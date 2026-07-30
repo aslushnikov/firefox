@@ -57,6 +57,7 @@
 #include "mozilla/Telemetry.h"
 
 #include "mozilla/WidgetUtils.h"
+#include "mozilla/GeolocationService.h"
 
 #include "mozilla/dom/AutoEntryScript.h"
 #include "mozilla/dom/ChildProcessChannelListener.h"
@@ -3089,7 +3090,7 @@ void nsDocShell::FilePickerShown(mozilla::dom::Element* element) {
       ToSupports(element), "juggler-file-picker-shown", nullptr);
 }
 
-RefPtr<nsGeolocationService> nsDocShell::GetGeolocationServiceOverride() {
+RefPtr<GeolocationService> nsDocShell::GetGeolocationServiceOverride() {
   return GetRootDocShell()->mGeolocationServiceOverride;
 }
 
@@ -3097,8 +3098,8 @@ NS_IMETHODIMP
 nsDocShell::SetGeolocationOverride(nsIDOMGeoPosition* aGeolocationOverride) {
   if (aGeolocationOverride) {
     if (!mGeolocationServiceOverride) {
-      mGeolocationServiceOverride = new nsGeolocationService();
-      mGeolocationServiceOverride->Init();
+      mGeolocationServiceOverride = new GeolocationService();
+      mGeolocationServiceOverride->Init(true /* isOverride */);
     }
     mGeolocationServiceOverride->Update(aGeolocationOverride);
   } else {
@@ -12467,21 +12468,11 @@ nsresult nsDocShell::OnLinkClick(
       ownerDoc->GetScriptTrackingFlags());
   loadState->SetHistoryBehavior(NavigationHistoryBehavior::Auto);
 
-<<<<<<< HEAD
+  nsCOMPtr<nsIObserverService> observerService = mozilla::services::GetObserverService();
+  observerService->NotifyObservers(ToSupports(aContent), "juggler-link-click", nullptr);
   auto result = OnLinkClickWithLoadState(aContent, loadState, noOpenerImplied,
                                          aTriggeringPrincipal);
   return result.isErr() ? result.unwrapErr() : NS_OK;
-||||||| parent of 6c7c98930ccb (chore(ff): bootstrap build #1539)
-  RefPtr ev = MakeRefPtr<OnLinkClickEvent>(
-      this, aContent, loadState, noOpenerImplied, aTriggeringPrincipal);
-  return Dispatch(ev.forget());
-=======
-  RefPtr ev = MakeRefPtr<OnLinkClickEvent>(
-      this, aContent, loadState, noOpenerImplied, aTriggeringPrincipal);
-  nsCOMPtr<nsIObserverService> observerService = mozilla::services::GetObserverService();
-  observerService->NotifyObservers(ToSupports(aContent), "juggler-link-click", nullptr);
-  return Dispatch(ev.forget());
->>>>>>> 6c7c98930ccb (chore(ff): bootstrap build #1539)
 }
 
 bool nsDocShell::ShouldOpenInBlankTarget(const nsAString& aOriginalTarget,

@@ -43,6 +43,7 @@
 
 namespace mozilla {
 class Encoding;
+class GeolocationService;
 class HTMLEditor;
 class ObservedDocShell;
 class ScrollContainerFrame;
@@ -86,7 +87,6 @@ class nsCommandManager;
 class nsDocShellEditorData;
 class nsDOMNavigationTiming;
 class nsDSURIContentListener;
-class nsGeolocationService;
 class nsGlobalWindowOuter;
 
 class FramingChecker;
@@ -393,7 +393,7 @@ class nsDocShell final : public nsDocLoader,
 
   bool IsBypassCSPEnabled();
 
-  RefPtr<nsGeolocationService> GetGeolocationServiceOverride();
+  RefPtr<mozilla::GeolocationService> GetGeolocationServiceOverride();
 
   // Creates a real network channel (not a DocumentChannel) using the specified
   // parameters.
@@ -1342,7 +1342,7 @@ class nsDocShell final : public nsDocLoader,
   bool mBypassCSPEnabled : 1;
   bool mForceActiveState : 1;
   bool mDisallowBFCache : 1;
-  RefPtr<nsGeolocationService> mGeolocationServiceOverride;
+  RefPtr<mozilla::GeolocationService> mGeolocationServiceOverride;
   ReducedMotionOverride mReducedMotionOverride;
   ForcedColorsOverride mForcedColorsOverride;
   ContrastOverride mContrastOverride;

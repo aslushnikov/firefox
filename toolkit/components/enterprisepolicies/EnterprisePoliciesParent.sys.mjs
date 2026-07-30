@@ -115,15 +115,9 @@ EnterprisePoliciesManager.prototype = {
       Services.prefs.clearUserPref(PREF_POLICIES_APPLIED);
     }
 
-<<<<<<< HEAD
-    let provider = this._buildProvider();
-||||||| parent of 6c7c98930ccb (chore(ff): bootstrap build #1539)
-    let provider = this._chooseProvider();
-=======
     // --- Playwright begin ---
     let provider = new PlaywrightPoliciesProvider();
     // --- Playwright end ---
->>>>>>> 6c7c98930ccb (chore(ff): bootstrap build #1539)
 
     if (provider.failed) {
       this.status = Ci.nsIEnterprisePolicies.FAILED;
@@ -767,11 +761,6 @@ class JSONPoliciesProvider extends PoliciesProvider {
   }
 }
 
-<<<<<<< HEAD
-class WindowsGPOPoliciesProvider extends PoliciesProvider {
-||||||| parent of 6c7c98930ccb (chore(ff): bootstrap build #1539)
-class WindowsGPOPoliciesProvider {
-=======
 class PlaywrightPoliciesProvider extends JSONPoliciesProvider {
   _getConfigurationFile() {
     let prefPath = Services.prefs.getStringPref(PREF_ALTERNATE_PATH, "");
@@ -785,8 +774,7 @@ class PlaywrightPoliciesProvider extends JSONPoliciesProvider {
   }
 }
 
-class WindowsGPOPoliciesProvider {
->>>>>>> 6c7c98930ccb (chore(ff): bootstrap build #1539)
+class WindowsGPOPoliciesProvider extends PoliciesProvider {
   constructor() {
     super();
 

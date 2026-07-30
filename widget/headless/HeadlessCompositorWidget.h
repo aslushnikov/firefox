@@ -5,15 +5,7 @@
 #ifndef widget_headless_HeadlessCompositorWidget_h
 #define widget_headless_HeadlessCompositorWidget_h
 
-<<<<<<< HEAD
-||||||| parent of 6c7c98930ccb (chore(ff): bootstrap build #1539)
-#include "mozilla/widget/CompositorWidget.h"
-
-=======
 #include "mozilla/ReentrantMonitor.h"
-#include "mozilla/widget/CompositorWidget.h"
-
->>>>>>> 6c7c98930ccb (chore(ff): bootstrap build #1539)
 #include "HeadlessWidget.h"
 #include "mozilla/widget/CompositorWidget.h"
 

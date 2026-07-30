@@ -3827,16 +3827,8 @@ void BrowsingContext::SetGeolocationServiceOverride(
       "Should only set GeolocationServiceOverride in the top browsing context");
   if (aGeolocationOverride.WasPassed()) {
     if (!mGeolocationServiceOverride) {
-<<<<<<< HEAD
       mGeolocationServiceOverride = MakeRefPtr<GeolocationService>();
-      mGeolocationServiceOverride->Init();
-||||||| parent of 6c7c98930ccb (chore(ff): bootstrap build #1539)
-      mGeolocationServiceOverride = MakeRefPtr<nsGeolocationService>();
-      mGeolocationServiceOverride->Init();
-=======
-      mGeolocationServiceOverride = MakeRefPtr<nsGeolocationService>();
       mGeolocationServiceOverride->Init(true /* isOverride */);
->>>>>>> 6c7c98930ccb (chore(ff): bootstrap build #1539)
     }
     mGeolocationServiceOverride->Update(aGeolocationOverride.Value());
   } else if (RefPtr<GeolocationService> serviceOverride =
