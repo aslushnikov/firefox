@@ -258,25 +258,26 @@ class Runtime {
       reject = b;
     });
     this._pendingPromises.set(obj.promiseID, {resolve, reject, executionContext, exceptionDetails});
-    if (this._pendingPromises.size === 1)
-      this._debugger.onPromiseSettled = this._onPromiseSettled.bind(this);
+    // Debugger.onPromiseSettled hook was removed in Bug 2044167, so instead
+    // attach reactions to the debuggee promise from the privileged compartment.
+    obj.unsafeDereference().then(
+        value => this._onPromiseSettled(obj.promiseID, true, value),
+        reason => this._onPromiseSettled(obj.promiseID, false, reason));
     return await promise;
   }
 
-  _onPromiseSettled(obj) {
-    const pendingPromise = this._pendingPromises.get(obj.promiseID);
+  _onPromiseSettled(promiseID, fulfilled, valueOrReason) {
+    const pendingPromise = this._pendingPromises.get(promiseID);
     if (!pendingPromise)
       return;
-    this._pendingPromises.delete(obj.promiseID);
-    if (!this._pendingPromises.size)
-      this._debugger.onPromiseSettled = undefined;
+    this._pendingPromises.delete(promiseID);
 
-    if (obj.promiseState === 'fulfilled') {
-      pendingPromise.resolve({success: true, obj: obj.promiseValue});
+    const debuggee = pendingPromise.executionContext._debuggee;
+    if (fulfilled) {
+      pendingPromise.resolve({success: true, obj: debuggee.makeDebuggeeValue(valueOrReason)});
       return;
     };
-    const debuggee = pendingPromise.executionContext._debuggee;
-    const errorInfo = debuggee.executeInGlobalWithBindings('({m: e?.message, s: e?.stack})', {e: obj.promiseReason}, {useInnerBindings: true}).return;
+    const errorInfo = debuggee.executeInGlobalWithBindings('({m: e?.message, s: e?.stack})', {e: debuggee.makeDebuggeeValue(valueOrReason)}, {useInnerBindings: true}).return;
     pendingPromise.exceptionDetails.text = errorInfo.getOwnPropertyDescriptor('m').value;
     pendingPromise.exceptionDetails.stack = errorInfo.getOwnPropertyDescriptor('s').value;
     pendingPromise.resolve({success: false, obj: null});
@@ -306,8 +307,6 @@ class Runtime {
         this._pendingPromises.delete(promiseID);
       }
     }
-    if (!this._pendingPromises.size)
-      this._debugger.onPromiseSettled = undefined;
     this._debugger.removeDebuggee(destroyedContext._contextGlobal);
     this._executionContexts.delete(destroyedContext._id);
     if (destroyedContext._domWindow)
